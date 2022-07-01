@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan')
+require('./config/db.config')
 
 
 const app = express();
