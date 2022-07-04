@@ -6,33 +6,32 @@ const userSchema = mongoose.Schema({
     firstName: {
         type: String,
         required: true,
-        maxLenght: 50,
+        maxLength: 50,
     },
     lastName: {
         type: String,
         required: true,
-        maxLenght: 50,
+        maxLength: 50,
     },
     email: {
         type: String,
         required: true,
         unique: true,
-        validate: isEmail,
+        validate: [isEmail],
     },
     password: {
         type: String,
         required: true,
-        minLenght: 8
     },
     description: {
         type: String,
-        maxLenght: 1000,
+        maxLength: 1000,
     },
     image: {
         type: String,
         required: true
     },
-    status: {
+    isAdmin: {
         type: Boolean,
         required: true
     }

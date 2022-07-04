@@ -1,17 +1,22 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
-const morgan = require('morgan')
-require('./config/db.config')
+const morgan = require('morgan');
+require('./config/db.config');
 
 
 const app = express();
 
-//* affiche les requete envoyer au serveurdans la console
+//* declaration des routes
+const userRoutes = require('./routes/user.routes');
+
+
+//* affiche les requete envoyer au serveur dans la console
 app.use(morgan('dev'));
 
+//* intercepte les requete de type json
+app.use(express.json());
+
 //* traite les requetes envoyer au serveur
-app.use((req, res) => {
-    res.send('Requete recu par le serveur');
-});
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
