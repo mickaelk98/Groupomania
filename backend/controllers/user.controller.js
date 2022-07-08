@@ -12,6 +12,9 @@ exports.signup = (req, res) => {
             const user = new User({
                 ...req.body,
                 password: hash,
+                //* ajout d'une image et d'un status par default
+                image: `${req.protocol}://${req.get('host')}/images/default.jpg`,
+                isAdmin: false
             });
             //* enregistrement du nouveau utilisateur dans la base de donnée
             user.save()
