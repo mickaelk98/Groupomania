@@ -1,6 +1,7 @@
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
 
 
 //* controller d'incription
@@ -68,4 +69,38 @@ exports.getUserProfil = (req, res) => {
     User.findOne({ _id: req.params.id }, 'firstName lastName email image isAdmin createdAt updatedAt')
         .then(user => res.status(200).json(user))
         .catch(err => res.status(400).json({ err }))
+}
+
+//* controller pour supprimer un utilisateur
+exports.deleteUser = (req, res) => {
+    //* on cherche l'utilisateur que l'on veut supprimer
+    User.findOne({ _id: req.params.id })
+        .then(user => {
+            //* si l'utilisateur n'xiste pas
+            if (!user) {
+                return res.status(400).json({ message: "L'utilisateur n'existe pas" })
+            }
+            //* sinon
+            else {
+                const filename = user.image.split('/images/')[1]
+
+                console.log(filename);
+                //* si l'image du profil est celle par defaut
+                if (filename === 'default.jpg') {
+                    User.deleteOne({ _id: req.params.id })
+                        .then(() => res.status(200).json({ message: "Utilisateur supprimé" }))
+                        .catch(err => res.status(400).json({ err }))
+                }
+                //* sinon 
+                else {
+                    //* supprime l'image du profil et l'utilisateur
+                    fs.unlink(`images/${filename}`, () => {
+                        User.deleteOne({ _id: req.params.id })
+                            .then(() => res.status(200).json({ message: "Utilisateur supprimé" }))
+                            .catch(err => res.status(400).json({ err }))
+                    })
+                }
+            }
+        })
+        .catch(err => res.status(400).json({ err }));
 }
