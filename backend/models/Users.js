@@ -41,6 +41,6 @@ const userSchema = mongoose.Schema({
         timestamps: true,
     })
 
-userSchema.plugin(uniqueValidator, { message: "Cette email est déja" });
+userSchema.plugin(uniqueValidator, { message: "Cette email est déja prise" });
 
 module.exports = mongoose.model('User', userSchema);

@@ -104,3 +104,20 @@ exports.deleteUser = (req, res) => {
         })
         .catch(err => res.status(400).json({ err }));
 }
+
+//* controller pour modifier le profil d'un utilisateur
+exports.updateProfil = (req, res) => {
+    const userObject = req.file ?
+        //* si l'utilisateur change l'image aussi
+        {
+            ...req.body,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } :
+        //* sinon
+        {
+            ...req.body
+        }
+    User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Votre profil a bien été modifié" }))
+        .catch(err => res.status(400).json({ err }))
+}

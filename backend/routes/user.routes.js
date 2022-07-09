@@ -15,4 +15,8 @@ router.get('/:id', userCtrl.getUserProfil)
 //* route pour supprimer un profil
 router.delete('/:id', userCtrl.deleteUser)
 
+//* route pour modifier un profil
+router.put('/:id', userCtrl.updateProfil)
+
+
 module.exports = router;
