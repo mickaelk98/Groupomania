@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user.controller');
+const auth = require('../middleware/auth')
 
 
 //* route pour s'inscrire
@@ -13,10 +14,10 @@ router.post('/login', userCtrl.login)
 router.get('/:id', userCtrl.getUserProfil)
 
 //* route pour supprimer un profil
-router.delete('/:id', userCtrl.deleteUser)
+router.delete('/:id', auth, userCtrl.deleteUser)
 
 //* route pour modifier un profil
-router.put('/:id', userCtrl.updateProfil)
+router.put('/:id', auth, userCtrl.updateProfil)
 
 
 module.exports = router;

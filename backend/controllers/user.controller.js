@@ -66,7 +66,7 @@ exports.login = (req, res) => {
 
 //* controller pour recuperer les information d'un utilisateur
 exports.getUserProfil = (req, res) => {
-    User.findOne({ _id: req.params.id }, 'firstName lastName email image isAdmin createdAt updatedAt')
+    User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt updatedAt')
         .then(user => res.status(200).json(user))
         .catch(err => res.status(400).json({ err }))
 }
