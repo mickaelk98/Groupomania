@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user.controller');
 const auth = require('../middleware/auth')
+const verifUserInput = require('../middleware/verifInput')
 
 
 //* route pour s'inscrire
-router.post('/signup', userCtrl.signup)
+router.post('/signup', verifUserInput, userCtrl.signup)
 
 //* route pour se connecter
 router.post('/login', userCtrl.login)
