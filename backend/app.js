@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 require('./config/db.config');
+const path = require('path')
 
 
 const app = express();
@@ -23,6 +24,9 @@ app.use(morgan('dev'));
 
 //* intercepte les requete de type json
 app.use(express.json());
+
+//* permet de servir des images
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //* traite les requetes envoyer au serveur
 app.use('/api/auth', userRoutes);
