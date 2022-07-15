@@ -2,7 +2,10 @@
 import { useField, useForm } from 'vee-validate';
 import { z } from 'zod';
 import {  toFormValidator } from '@vee-validate/zod';
+import { useRouter } from 'vue-router';
 
+
+const router = useRouter()
 
 const validationSchema = toFormValidator(z.object({
     email: z.string({ required_error: "Ce champ est obligatoire" })
@@ -44,10 +47,11 @@ const login = handleSubmit(async (formValue, { resetForm }) => {
             userId: data.userId,
             token: data.token
         }
-        
+
         // ajout de l'id et du token dans le local storage
         localStorage.setItem("auth", JSON.stringify(auth))
         console.log("connexion reussie");
+        router.push('/home')
         resetForm();
     } 
     else {
