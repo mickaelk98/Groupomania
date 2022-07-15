@@ -48,14 +48,14 @@ exports.login = (req, res) => {
         //* si la requete s'est bien passée
         .then(user => {
             if (!user) {
-                return res.status(401).json({ message: "Cet utilisateur n'existe pas" })
+                return res.status(401).json({ email: "Cet utilisateur n'existe pas" })
             } else {
                 //* commpare le MDP de la requete et celui dans mongoDB
                 bcrypt.compare(req.body.password, user.password)
                     .then(validPassword => {
                         //* si le mot de passe est incorect
                         if (!validPassword) {
-                            return res.status(401).json({ message: 'Mot de passe incorect' })
+                            return res.status(401).json({ password: 'Mot de passe incorect' })
                         }
                         //* sinon
                         else {
