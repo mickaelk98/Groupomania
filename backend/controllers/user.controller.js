@@ -3,6 +3,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 
+//* formatage des erreurs
+const handleErrors = (err) => {
+    let errors = { firstName: '', lastName: '', email: '', password: '' };
+
+    if (err.message.includes('User validation failed')) {
+        Object.values(err.errors).forEach(({ properties }) => {
+            errors[properties.path] = properties.message;
+        })
+    }
+    return errors;
+}
+
 
 //* controller d'incription
 exports.signup = (req, res) => {
@@ -20,7 +32,10 @@ exports.signup = (req, res) => {
             //* enregistrement du nouveau utilisateur dans la base de donnée
             user.save()
                 .then(() => res.status(201).json({ message: 'Votre compte a été créé' }))
-                .catch(err => res.status(400).json({ err }))
+                .catch((err) => {
+                    const errors = handleErrors(err)
+                    res.status(400).json({ errors })
+                })
         })
         .catch(err => res.status(500).json({ err }));
 }

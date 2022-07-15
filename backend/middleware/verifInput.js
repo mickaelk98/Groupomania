@@ -2,11 +2,15 @@ const passwordValidator = require('password-validator');
 const firstNameSchema = new passwordValidator();
 const lastNameSchema = new passwordValidator();
 const passwordSchema = new passwordValidator();
-const descriptionSchema = new passwordValidator();
+
 
 module.exports = (req, res, next) => {
 
-    const { firstName, lastName, password, description } = req.body
+    const { firstName, lastName, password } = req.body
+
+    if (!firstName && !lastName && !password) {
+        return res.status(400).json({ errors: { message: "Vous devez rentrez les informtion demandée pour crée un compte" } })
+    }
 
     //*schema du prenom
     firstNameSchema
@@ -25,44 +29,36 @@ module.exports = (req, res, next) => {
         .has().symbols(1, "votre mot de passe doit contenir au moin un caractere speciale")
     // .has().oneOf(['@'])
 
-    //* schema de la description
-    descriptionSchema
-        .is().max(1000, "Votre description ne doit pas depasser 1000 caractères")
-
-
 
     //* verifie les saisie de l'utilisateur
     const validFirstName = firstNameSchema.validate(firstName, { details: true });
     const validLastName = lastNameSchema.validate(lastName, { details: true })
     const validPassword = passwordSchema.validate(password, { details: true });
-    const validDescription = descriptionSchema.validate(description, { details: true });
+    const errors = { firstName: '', lastName: '', password: '' };
 
-    const validArray = [validFirstName, validLastName, validPassword, validDescription]
-    // console.log(validArray);
-    // console.log(validArray.length);
-    let valid = 0;
 
-    //* si le mot de passe n'est pas valide || verification des inputs
-    for (let i = 0; i < validArray.length; i++) {
+    //* si le prenom n'est pas valid
+    if (validFirstName.length > 0) {
+        for (let i = 0; i < validFirstName.length; i++) {
 
-        //* si il y a une erreur
-        if (validArray[i].length > 0) {
-            // console.log("mot de passe invalid");
-            for (let j = 0; j < validArray[j].length; j++) {
-                return res.status(400).json({ message: validArray[i][j].message })
-            }
-        } else {
-            valid++;
-            console.log("ok");
-            // console.log(validPass);
-            // console.log("mot de passe valid");
-            // next();
+            return res.status(400).json({ errors: { firstName: validFirstName[i].message } });
         }
-    }
-    if (valid > 3) {
-        next();
+        //* sinon si c'est le nom
+    } else if (validLastName.length > 0) {
+        for (let i = 0; i < validLastName.length; i++) {
+
+            return res.status(400).json({ errors: { lastName: validLastName[i].message } });
+        }
+
+        //* sinon si c'est le mot de passe 
+    } else if (validPassword.length > 0) {
+        for (let i = 0; i < validPassword.length; i++) {
+
+            return res.status(400).json({ errors: { password: validPassword[i].message } });
+        }
+        //* si ils sont tous valid
     } else {
-        return res.status(400).json({ message: "l'un des champ n'est pas valid" })
+        next();
     }
-    // console.log("ok");
+
 }

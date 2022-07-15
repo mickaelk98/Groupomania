@@ -1,9 +1,11 @@
 <script setup>
 import { useField, useForm } from 'vee-validate';
 import { z } from 'zod';
-import {  toFormValidator } from '@vee-validate/zod'
+import {  toFormValidator } from '@vee-validate/zod';
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter()
 
 const validationSchema = toFormValidator(z.object({
     firstName: z.string({ required_error: "Ce champ est obligatoire" })
@@ -31,7 +33,7 @@ const { handleSubmit,setErrors, setFieldError } = useForm({
 })
 
 // fonction d'inscription
-const signup = handleSubmit(async (formValue) => {
+const signup = handleSubmit(async (formValue, { resetForm }) => {
     console.log(formValue);
     try {
         const response = await fetch('http://localhost:5000/api/auth/signup', {
@@ -43,13 +45,21 @@ const signup = handleSubmit(async (formValue) => {
         });
 
         const data = await response.json();
-        console.log(data);
 
         // si le compte a été crée
         if (response.ok) {
-            console.log(data);
-        } else {
-           console.log(data);
+            //* redirection sur la page de connexion
+            router.push('/login')
+            resetForm()
+        }
+        //* sinon afficher les erreurs renvoyer par le backend 
+        else {
+           setErrors({
+            firstName: data.errors.firstName,
+            lastName: data.errors.lastName,
+            email: data.errors.email,
+            password: data.errors.password
+           })
         }
     } catch (e) {
         console.log(e);
@@ -81,7 +91,7 @@ const { value: passwordValue, errorMessage: passwordError} = useField('password'
                     <small v-if="lastNameError">{{ lastNameError }}</small>
 
                     <!-- email -->
-                    <input v-model="emailValue" type="email" placeholder="Entrez votre email">
+                    <input v-model="emailValue" type="text" placeholder="Entrez votre email">
                     <small v-if="emailError">{{ emailError }}</small>
 
                     <!-- Password -->
