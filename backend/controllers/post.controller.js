@@ -43,3 +43,9 @@ exports.createPost = (req, res) => {
 }
 
 
+//* controller pour recuperer tout les post
+exports.getAllPosts = (req, res) => {
+    Post.find()
+        .then(posts => res.status(200).json(posts))
+        .catch(err => res.status(400).json({ err }))
+}
