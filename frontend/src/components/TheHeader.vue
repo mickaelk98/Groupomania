@@ -14,6 +14,6 @@
     </header>
 </template>
 
-<style lang="scss">
-@import '../assets/sass/components/header'
+<style lang="scss" scoped>
+@import '../assets/sass/components/header';
 </style>

@@ -1,0 +1,136 @@
+@import '../utils/variables';
+
+.post {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid $primary-color;
+    margin: 15px 0;
+    
+    p {
+        margin-bottom: 20px;
+    }
+}
+
+.img-name {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    p {
+        margin-left: 10px;
+        margin-bottom: 0in;
+    }
+}
+
+.update-delete-btn {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 5px 0;
+
+    .btn {
+        padding: 5px;
+        outline: none;
+        cursor: pointer;
+        border: none;
+        color: #fff;
+    }
+    .btn-update {
+        background: $success-1;
+        &:hover {
+             background: $success-2;
+        }
+    }
+    .btn-delete {
+        background: $danger-1;
+        &:hover {
+             background: $danger-2;
+        }
+    }
+}
+
+
+
+.post-image {
+    width: 100%;
+    margin: 5px auto;
+}
+
+.like-comment {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 5px;
+
+    span {
+        margin: 20px 0;
+        display: inline-block;
+        i {
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: $tertiary-color;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: $tertiary-color;
+        }
+
+    }
+}
+
+form {
+    margin: 10px auto;
+    textarea {
+        resize: none;
+        border-radius: 20px;
+        padding: 10px;
+        margin-bottom: 5px;
+        width: 90%;
+    }
+    button {
+        border: none;
+        width: 100px;
+        background: $success-1;
+        color: white;
+        margin-left: 5px;
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+            background: $success-2;
+        }
+    }
+}
+
+.all-comment {
+    display: flex;
+    flex-direction: column;
+    .comment {
+        margin: 10px 0;
+        width: 90%;
+        border-radius: 10px;
+        padding: 5px;
+        border: 1px solid salmon;
+    }
+}
