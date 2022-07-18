@@ -103,5 +103,5 @@ exports.deletePost = (req, res) => {
                 })
             }
         })
-        .catch(err => res.status(500).json({ message: "le post n'a pas pu etre modifié", err }))
+        .catch(err => res.status(400).json({ message: "le post n'a pas pu etre supprimé", err }))
 }
