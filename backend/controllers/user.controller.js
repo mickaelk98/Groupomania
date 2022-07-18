@@ -88,6 +88,11 @@ exports.getUserProfil = (req, res) => {
 
 //* controller pour supprimer un utilisateur
 exports.deleteUser = (req, res) => {
+    //* si celui qui fait la requete n'a pas crée le profil
+    if (req.params.id !== req.auth.userId) {
+        return res.status(401).json({ message: 'Requete non autorisé' })
+    }
+
     //* on cherche l'utilisateur que l'on veut supprimer
     User.findOne({ _id: req.params.id })
         .then(user => {
@@ -122,6 +127,12 @@ exports.deleteUser = (req, res) => {
 
 //* controller pour modifier le profil d'un utilisateur
 exports.updateProfil = (req, res) => {
+
+    //* si celui qui fait la requete n'a pas crée le profil
+    if (req.params.id !== req.auth.userId) {
+        return res.status(401).json({ message: 'Requete non autorisé' })
+    }
+
     const userObject = req.file ?
         //* si l'utilisateur change l'image aussi
         {
