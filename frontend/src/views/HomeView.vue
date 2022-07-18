@@ -1,7 +1,10 @@
-<script></script>
+<script setup>
+import TheHeader from '../components/TheHeader.vue'
+</script>
 
 <template>
-    <h1>Page d'accueil</h1>
+    <TheHeader></TheHeader>
 </template>
 
-<style></style>
+<style lang="scss">
+</style>

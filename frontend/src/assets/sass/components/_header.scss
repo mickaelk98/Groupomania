@@ -1,0 +1,86 @@
+@import '../utils/variables';
+header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    background: $tertiary-color;
+    color: white;
+    font-size: 20px;
+    height: 80px;
+}
+
+.none {
+    display: none;
+}
+
+.logo-site {
+    width: 55%;
+    height: 80px;
+    background: url('./src/assets/images/icon-left-font-monochrome-white.svg') center/cover no-repeat;
+    background-size: 100%;
+}
+
+.account {
+    margin: auto 10px;
+    text-align: center;
+    cursor: pointer;
+    .logo-profil {
+        width: 35px;
+        height: 35px;
+        background: yellow;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    ul li {
+        line-height: 20px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    header {
+        height: 80px;
+    }
+
+    .logo-site {
+        width: 40%;
+        height: 80px;
+    }
+    
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+
+    .logo-site {
+        width: 30%;
+        height: 80px;
+    }
+
+    .account {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 10%;
+        .logo-profil {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 1441px) {
+    .logo-site {
+        width: 20%;
+        height: 80px;
+    }
+    .account {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 10%;
+        .logo-profil {
+            margin-bottom: 0;
+        }
+    }
+}
