@@ -1,5 +1,5 @@
 const Post = require('../models/post');
-
+const fs = require('fs')
 
 
 
@@ -72,7 +72,36 @@ exports.updatePost = (req, res) => {
                         .catch(err => res.status(400).json({ err }))
                 }
             })
-            .catch()
+            .catch(err => res.status(500).json({ message: "le post n'a pas pu etre modifié", err }))
     }
 
+}
+
+//* controller pour supprimer un post
+exports.deletePost = (req, res) => {
+
+    //* on cherche le post
+    Post.findOne({ _id: req.params.id })
+        .then(post => {
+            //* si le post n'existe pas
+            if (!post) {
+                return res.status(404).json({ message: "Le post n'a pas été trouvé" })
+            }
+            //* si celui qui fait la requete n'est pas celui qui la crée ou admin
+            if (post.posterId !== req.auth.userId && req.auth.status === false) {
+                return res.status(401).json({ message: 'Requete non autorisé' })
+            } else {
+
+                //* recupere l'image du post
+                const filename = post.image.split('/images/')[1]
+
+                //* supprime l'image et le post
+                fs.unlink(`images/${filename}`, () => {
+                    Post.deleteOne({ _id: req.params.id })
+                        .then(() => res.status(200).json({ message: "Le post a été supprimer" }))
+                        .catch(err => res.status(400).json({ err }))
+                })
+            }
+        })
+        .catch(err => res.status(500).json({ message: "le post n'a pas pu etre modifié", err }))
 }
