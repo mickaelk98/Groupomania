@@ -9,6 +9,7 @@ const app = express();
 
 //* declaration des routes
 const userRoutes = require('./routes/user.routes');
+const postRoutes = require('./routes/post.routes');
 
 
 
@@ -30,5 +31,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //* traite les requetes envoyer au serveur
 app.use('/api/auth', userRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;
