@@ -1,0 +1,171 @@
+@import '../utils/variables';
+
+//* classe generale
+.hidden {
+    display: none;
+}
+
+.visible {
+    position: absolute;
+    width: 70%;
+    box-shadow: 2px -3px 20px 5px #00000052;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.profil-page {
+    position: relative;
+}
+
+.profil {
+    text-align: center;
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .title {
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        &::before {
+            content: "";
+            width: 90%;
+            margin: 5px auto;
+            height: 1px;
+            background: $secondary-color;
+            position: absolute;
+            bottom: -10px;
+            left: 5px;
+            right: 5px;
+        }
+    }
+
+    .name {
+        margin: 20px auto;
+    }
+
+    .img-profil {
+        margin: 10px auto;
+        width: 80%;
+        height: 200px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        button {
+            border: none;
+            margin: 5px auto;
+            width: 80%;
+            max-width: 400px;
+            padding: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .update {
+            background: $secondary-color;
+            border: 1px solid $secondary-color;
+            color: #444;
+            &:hover {
+                background: white;
+                border: 1px solid $secondary-color;
+            }
+        }
+        .delete {
+            background: $danger-1;
+            color: white;
+            &:hover {
+                background: $danger-2;
+                color: white;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .visible {
+        width: 50%;
+        top: 70%;
+    }
+    
+    .profil {
+        .container{
+            width: 60%;
+            margin: 0 auto;
+          }
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .visible {
+        width: 40%;
+        top: 95%;
+    }
+    .profil {
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-areas:
+            "profil profil"
+            "left right"
+            "btn btn"
+            ;
+
+        .title {
+            grid-area: profil;
+        }
+        .left-side {
+            grid-area: left;
+        }
+        .right-side {
+            grid-area: right;
+        }
+        .buttons {
+            grid-area: btn;
+        }
+        }
+    }
+}
+
+@media screen and (min-width: 1441px) {
+    .visible {
+        width: 30%;
+        top: 95%;
+    }
+    .profil {
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-areas:
+            "profil profil"
+            "left right"
+            "btn btn"
+            ;
+
+        .title {
+            grid-area: profil;
+        }
+        .left-side {
+            grid-area: left;
+        }
+        .right-side {
+            grid-area: right;
+        }
+        .buttons {
+            grid-area: btn;
+        }
+        }
+    }
+}
