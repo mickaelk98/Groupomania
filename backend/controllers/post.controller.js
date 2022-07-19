@@ -92,15 +92,25 @@ exports.deletePost = (req, res) => {
                 return res.status(401).json({ message: 'Requete non autorisé' })
             } else {
 
-                //* recupere l'image du post
-                const filename = post.image.split('/images/')[1]
+                //* si le post avait une image
+                if (req.file) {
 
-                //* supprime l'image et le post
-                fs.unlink(`images/${filename}`, () => {
+                    //* recupere l'image du post
+                    const filename = post.image.split('/images/')[1]
+
+                    //* supprime l'image et le post
+                    fs.unlink(`images/${filename}`, () => {
+                        Post.deleteOne({ _id: req.params.id })
+                            .then(() => res.status(200).json({ message: "Le post a été supprimer" }))
+                            .catch(err => res.status(400).json({ err }))
+                    })
+                }
+                //* sinon suprime juste le post 
+                else {
                     Post.deleteOne({ _id: req.params.id })
                         .then(() => res.status(200).json({ message: "Le post a été supprimer" }))
                         .catch(err => res.status(400).json({ err }))
-                })
+                }
             }
         })
         .catch(err => res.status(400).json({ message: "le post n'a pas pu etre supprimé", err }))
