@@ -15,11 +15,13 @@ exports.createPost = (req, res) => {
     const postObject = req.file ?
         {
             ...req.body,
+            posterId: req.auth.userId,
             likes: 0,
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         } :
         {
             ...req.body,
+            posterId: req.auth.userId,
             likes: 0
         }
 
@@ -54,7 +56,7 @@ exports.updatePost = (req, res) => {
                     return res.status(404).json({ message: "Le post n'a pas été trouvé" })
                 }
                 //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-                if (post.posterId !== req.auth.userId && req.auth.status === false) {
+                if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
                     return res.status(401).json({ message: 'Requete non autorisé' })
                 } else {
 
@@ -88,7 +90,7 @@ exports.deletePost = (req, res) => {
                 return res.status(404).json({ message: "Le post n'a pas été trouvé" })
             }
             //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-            if (post.posterId !== req.auth.userId && req.auth.status === false) {
+            if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
                 return res.status(401).json({ message: 'Requete non autorisé' })
             } else {
 

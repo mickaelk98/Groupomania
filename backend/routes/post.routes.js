@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 
 
 //* route pour créer un post
-router.post('/', multer, postCtrl.createPost)
+router.post('/', auth, multer, postCtrl.createPost)
 
 //* route pour recuperer tout les posts
 router.get('/', postCtrl.getAllPosts)
@@ -24,6 +24,6 @@ router.delete('/:id', auth, postCtrl.deletePost)
 router.post('/like/:id', auth, likeCtrl.likePost)
 
 //* route pour mettre un commentaire
-router.post('/comment/:id', commentCtrl.createComment)
+router.post('/comment/:id', auth, commentCtrl.createComment)
 
 module.exports = router;
