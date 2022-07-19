@@ -28,8 +28,6 @@ const postSchema = mongoose.Schema({
                 commenterImage: String,
                 text: String,
                 timestamp: Number
-                // timestamps: true
-
             }
         ],
         required: true

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const postCtrl = require('../controllers/post.controller');
 const likeCtrl = require('../controllers/like.controller');
+const commentCtrl = require('../controllers/comment.controller')
 const multer = require('../config/multer.config');
 const auth = require('../middleware/auth');
 
@@ -21,5 +22,8 @@ router.delete('/:id', auth, postCtrl.deletePost)
 
 //* route pour like et unlike
 router.post('/like/:id', auth, likeCtrl.likePost)
+
+//* route pour mettre un commentaire
+router.post('/comment/:id', commentCtrl.createComment)
 
 module.exports = router;
