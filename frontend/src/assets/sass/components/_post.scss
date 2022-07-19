@@ -12,6 +12,12 @@
     }
 }
 
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
 .img-name {
     display: flex;
     align-items: center;
@@ -24,6 +30,10 @@
     p {
         margin-left: 10px;
         margin-bottom: 0in;
+    }
+
+    .post-date {
+        margin-left: 20px;
     }
 }
 
@@ -126,8 +136,24 @@ form {
 .all-comment {
     display: flex;
     flex-direction: column;
-    .comment {
+    .comment-block {
         margin: 10px 0;
+        span {
+            display: block;
+            margin-bottom: 10px;
+        }
+    }
+    .commenter-info {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        p {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+    }
+    .comment {
         width: 90%;
         border-radius: 10px;
         padding: 5px;
