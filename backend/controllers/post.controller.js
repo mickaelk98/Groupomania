@@ -16,12 +16,18 @@ exports.createPost = (req, res) => {
         {
             ...req.body,
             posterId: req.auth.userId,
+            posterFirstname: req.auth.userFirstName,
+            posterLastname: req.auth.userLastName,
+            posterImage: req.auth.userImage,
             likes: 0,
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         } :
         {
             ...req.body,
             posterId: req.auth.userId,
+            posterFirstname: req.auth.userFirstName,
+            posterLastname: req.auth.userLastName,
+            posterImage: req.auth.userImage,
             likes: 0
         }
 
@@ -64,10 +70,18 @@ exports.updatePost = (req, res) => {
                     const postObject = req.file ?
                         {
                             ...req.body,
+                            posterId: req.auth.userId,
+                            posterFirstname: req.auth.userFirstName,
+                            posterLastname: req.auth.userLastName,
+                            posterImage: req.auth.userImage,
                             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                         } :
                         {
                             ...req.body,
+                            posterId: req.auth.userId,
+                            posterFirstname: req.auth.userFirstName,
+                            posterLastname: req.auth.userLastName,
+                            posterImage: req.auth.userImage,
                         }
                     Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                         .then(() => res.status(200).json({ message: 'Le post a été modifié' }))
