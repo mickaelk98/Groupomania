@@ -13,10 +13,10 @@ exports.createComment = (req, res) => {
                 {
                     $push: {
                         comments: {
-                            commenterId: req.body.commenterId,
-                            commenterFirstName: req.body.commenterFirstName,
-                            commenterLastName: req.body.commenterLastName,
-                            commenterImage: req.body.commenterImage,
+                            commenterId: req.auth.userId,
+                            commenterFirstName: req.auth.userFirstName,
+                            commenterLastName: req.auth.userLastName,
+                            commenterImage: req.auth.userImage,
                             text: req.body.text,
                             timestamp: new Date().getTime()
                         }

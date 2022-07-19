@@ -9,10 +9,10 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`);
         console.log(decodedToken);
         //* extraction de l'id et du status de celui qui fait la requete
-        const { userId, userStatus } = decodedToken;
+        const { userId, userStatus, userFirstName, userLastName, userImage } = decodedToken;
 
         //* ajout du status et de l'id dans un objet pour l'utiliser dans les middleware suivant
-        req.auth = { userId, userStatus };
+        req.auth = { userId, userStatus, userFirstName, userLastName, userImage };
 
         next();
     } catch (err) {
