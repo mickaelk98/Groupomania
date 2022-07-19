@@ -1,14 +1,20 @@
 <script setup>
+const signout = () => {
+    localStorage.clear();
+}
 </script>
 
 <template>
     <header>
-        <!-- <img src="" alt="logo du site"> -->
         <div class="logo-site"></div>
         <div class="account">
-            <div class="logo-profil"></div>
             <ul>
-                <li><i class="fas fa-sign-out"></i></li>
+                <li>
+                    <router-link to="/profil"><i class="fas fa-user"></i></router-link>
+                </li>
+                <li>
+                    <router-link @click="signout" to="/login"><i class="fas fa-sign-out"></i></router-link>
+                </li>
             </ul>
         </div>
     </header>

@@ -85,7 +85,7 @@ const { value: passwordValue, errorMessage: passwordError} = useField('password'
                     <!-- Password -->
                     <input v-model="passwordValue" type="password" placeholder="Entrez votre mot de passe">
                     <small v-if="passwordError">{{ passwordError }}</small>
-                    <button class="btn">S'inscrire</button>
+                    <button class="btn">Se connecter</button>
                 </form>
             </div>
             <router-link id="to-signup" to="/">Je veux m'incrire</router-link>
