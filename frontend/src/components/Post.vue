@@ -4,8 +4,9 @@ import { reactive } from 'vue';
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
+const userStatus = auth.userStatus;
 const userToken = auth.token;
-console.log(auth, localUserId, userToken);
+console.log(userStatus);
 
 // gere l'éta des donnée
 const state = reactive({
@@ -38,13 +39,13 @@ getAllPost();
 <template>
     <div class="post" v-for="post in state.posts" :key="post._id">
         <div class="img-name">
-            <img src="../assets/images/default.jpg" alt="photo de profil">
-            <p>john doe</p>
+            <img :src="post.posterImage" alt="photo de profil">
+            <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
             <p class="post-date">{{ Date(post.timestamp).split('GMT')[0]  }}</p>
         </div>
 
         <!-- boutton de modification et suppression de post -->
-        <div class="update-delete-btn">
+        <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
             <button class="btn btn-update">Modifier</button>
             <button class="btn btn-delete">Supprimer</button>
         </div>

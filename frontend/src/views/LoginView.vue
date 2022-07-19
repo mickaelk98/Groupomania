@@ -45,7 +45,8 @@ const login = handleSubmit(async (formValue, { resetForm }) => {
         // recuperation de l'id et du token
         const auth = {
             userId: data.userId,
-            token: data.token
+            token: data.token,
+            userStatus: data.userStatus
         }
 
         // ajout de l'id et du token dans le local storage
