@@ -5,6 +5,18 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    posterFirstname: {
+        type: String,
+        required: true
+    },
+    posterLastname: {
+        type: String,
+        required: true
+    },
+    posterImage: {
+        type: String,
+        required: true
+    },
     text: {
         type: String,
         maxlenght: [500, "Votre post ne doit pas depasser les 500 caractères"]
