@@ -8,7 +8,6 @@ import {  reactive, ref, watch } from 'vue';
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userToken = auth.token;
-console.log(auth, localUserId, userToken);
 
 // gere l'éta des donnée
 const state = reactive({
@@ -65,7 +64,6 @@ const getUserProfil = async () => {
 
     const user = await response.json();
     state.user = user;
-    console.log(state.user);
 }
 
 // fonction de creation d'un post
@@ -85,7 +83,6 @@ const createPost = handleSubmit(async (formValue, { resetForm }) => {
         });
 
         const post = await response.json();
-        console.log(post);
 
         if (response.ok) {
             resetForm()

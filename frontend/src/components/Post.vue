@@ -1,43 +1,21 @@
 <script setup>
-import { reactive } from 'vue';
+import { usePosts } from '../shared/stores/postStore';
+// import { getAllPost } from '../shared/services/post.services';
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userStatus = auth.userStatus;
 const userToken = auth.token;
-console.log(userStatus);
 
-// gere l'éta des donnée
-const state = reactive({
-    posts: []
-});
+// recuperation du store
+const postStore = usePosts()
+postStore.getAllPosts()
 
-// recuperation des donnée de l'utilisateur
-const getAllPost = async () => {
-    const response = await fetch('http://localhost:5000/api/post/', {
-        headers: {
-            'content-Type': 'application/json',
-        }
-    });
-
-    const posts = await response.json();
-  
-    if (posts) {
-        if (Array.isArray(posts)) {
-            state.posts = posts;
-        } else {
-            state.posts = [posts];
-        }
-    }
-    console.log(state.posts);
-}
-
-getAllPost();
 </script>
 
 <template>
-    <div class="post" v-for="post in state.posts" :key="post._id">
+    <div class="post" v-for="post in postStore.posts" :key="post._id">
         <div class="img-name">
             <img :src="post.posterImage" alt="photo de profil">
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
