@@ -7,14 +7,27 @@
     margin-bottom: 20px;
     padding: 10px;
     textarea {
+        display: block;
         resize: none;
         border-radius: 20px;
         padding: 10px;
         width: 90%;
     }
+    .errors {
+        display: block;
+        color: $primary-color;
+        margin: 5px 0;
+    }
 
     input {
         display: block;
+    }
+    .img-preview {
+        padding: 5px;
+        img {
+            width: 100%;
+            height: 200px;
+        }
     }
     .submit-post {
         width: 30%;

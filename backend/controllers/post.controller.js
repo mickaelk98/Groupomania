@@ -7,8 +7,8 @@ const fs = require('fs')
 exports.createPost = (req, res) => {
 
     //* verifie si la post contient une image ou un text
-    if (!req.body.text && !req.file) {
-        return res.status(400).json({ message: 'Pour créer un post vous devez envoyer un message ou une image' })
+    if (req.body.text === "undefined" && !req.file) {
+        return res.status(400).json({ error: 'Pour créer un post vous devez envoyer un message ou une image' })
     }
 
     //* verifi si le post contient une image ou non
