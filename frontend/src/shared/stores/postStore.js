@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAllPost } from '../services/post.services';
+import { getAllPost, createPost, deletePost, updatePost } from '../services/post.services';
 
 
 export const usePosts = defineStore('posts', {
@@ -16,7 +16,7 @@ export const usePosts = defineStore('posts', {
             }
         },
         async createPost(userToken, data) {
-            const newPost = await createPost(userToken, { ...data });
+            const newPost = await createPost(userToken, data);
             this.posts.push(newPost);
         },
         async deletePost(postId, userToken) {

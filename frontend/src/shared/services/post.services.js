@@ -43,14 +43,24 @@ export async function updatePost(postId, userToken, data) {
 
 //* fonction pour ajouter un post
 export async function createPost(userToken, data) {
-    const response = await fetch(BASE_URL, {
-        method: 'POST',
-        body: data,
-        headers: {
-            'Authorization': 'Bearer ' + userToken,
-        }
-    });
+    try {
 
-    const posts = await response.json();
-    return posts;
+        // const fd = new FormData()
+        // fd.append('text', data.text)
+        // fd.append('image', file)
+
+        const response = await fetch(BASE_URL, {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+
+        const posts = await response.json();
+        console.log(posts);
+        return posts;
+    } catch (e) {
+        console.log(e);
+    }
 }

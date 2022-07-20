@@ -34,7 +34,7 @@ exports.createPost = (req, res) => {
     const post = new Post(postObject)
     post.save()
         .then(newPost => {
-            res.status(201).json({ message: "post crée", newPost })
+            res.status(201).json(newPost)
         })
         .catch(err => res.status(400).json({ err }))
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { usePosts } from '../shared/stores/postStore';
-// import { getAllPost } from '../shared/services/post.services';
+
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
@@ -29,7 +29,7 @@ postStore.getAllPosts()
         </div>
 
         <!-- image du post -->
-        <img :src="post.image" alt="image du post" class="post-image" v-if="post.image">
+        <img :src="post.image" alt="image du post" class="post-image" v-if="!post.image">
 
         <!-- message du post -->
         <p>
@@ -50,7 +50,7 @@ postStore.getAllPosts()
 
         <!-- commentaire du post -->
         <!-- <div class="all-comment" v-for="comment in state.posts.comments"> -->
-        <div class="all-comment" v-for="comment in post.comments" v-if="post.comments.length > 0">
+        <div class="all-comment" v-for="comment in postStore.posts.comments">
             <div class="comment-block">
                 <div class="commenter-info">
                     <img :src="comment.commenterImage" alt="photo de profil" class="logo-img">
