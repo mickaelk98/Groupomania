@@ -3,7 +3,32 @@ import { ref } from 'vue';
 import TheHeader from '../components/TheHeader.vue';
 import UpdateProfil from '../components/UpdateProfil.vue'
 
+// recuperation du userId et du token 
+const auth = JSON.parse(localStorage.getItem('auth'));
+const localUserId = auth.userId;
+const userToken = auth.token;
+
+
 const updateFormClass = ref('hidden')
+
+// fonction de suppression d'un profil
+const deleteProfil = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
+            method: 'DELETE',
+            headers: {
+                'content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userToken,
+            }
+        })
+
+        const data = await response.json();
+
+       console.log(data);
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 </script>
 
@@ -33,7 +58,7 @@ const updateFormClass = ref('hidden')
             </div>
             <div class="buttons">
                 <button class="update" @click="updateFormClass = 'visible'">Modifier le profil</button>
-                <button class="delete">Supprimer le Profil</button>
+                <button class="delete" @click="deleteProfil">Supprimer le Profil</button>
             </div>
         </main>
     </div>
