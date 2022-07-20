@@ -1,5 +1,9 @@
 @import '../utils/variables';
 //* classe generale
+.errors {
+    color: $primary-color;
+}
+
 
 form {
     position: relative;

@@ -132,9 +132,14 @@ exports.deleteUser = (req, res) => {
 //* controller pour modifier le profil d'un utilisateur
 exports.updateProfil = (req, res) => {
 
+    //* verifie si la requete n'est pas vide
+    if (req.body.firstName === "undefined" && req.body.lastName === "undefined" && req.body.email === "undefined" && req.body.password === "undefined" && req.body.description === "undefined" && !req.file) {
+        return res.status(400).json({ error: "Vous devez remplir l'un des champ pour modifier le profil" })
+    }
+
     //* si celui qui fait la requete n'a pas crée le profil
     if (req.params.id !== req.auth.userId) {
-        return res.status(401).json({ message: 'Requete non autorisé' })
+        return res.status(401).json({ error: 'Requete non autorisé' })
     }
 
     const userObject = req.file ?
@@ -148,6 +153,6 @@ exports.updateProfil = (req, res) => {
             ...req.body
         }
     User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: "Votre profil a bien été modifié" }))
+        .then(() => res.status(200).json({ message: "Votre profil a bien été modifié", userObject }))
         .catch(err => res.status(400).json({ err }))
 }

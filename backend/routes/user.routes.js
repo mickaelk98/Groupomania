@@ -3,7 +3,7 @@ const router = express.Router();
 const userCtrl = require('../controllers/user.controller');
 const auth = require('../middleware/auth')
 const verifUserInput = require('../middleware/verifInput')
-
+const multer = require('../config/multer.config')
 
 //* route pour s'inscrire
 router.post('/signup', verifUserInput, userCtrl.signup)
@@ -18,7 +18,7 @@ router.get('/:id', userCtrl.getUserProfil)
 router.delete('/:id', auth, userCtrl.deleteUser)
 
 //* route pour modifier un profil
-router.put('/:id', auth, userCtrl.updateProfil)
+router.put('/:id', auth, multer, userCtrl.updateProfil)
 
 
 module.exports = router;
