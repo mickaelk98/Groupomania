@@ -3,9 +3,11 @@ import { useField, useForm } from 'vee-validate';
 import { z } from 'zod';
 import {  toFormValidator } from '@vee-validate/zod';
 import { useRouter } from 'vue-router';
+import { useUser } from '../shared/stores';
 
 
 const router = useRouter()
+const userStore = useUser();
 
 const validationSchema = toFormValidator(z.object({
     email: z.string({ required_error: "Ce champ est obligatoire" })
@@ -28,37 +30,13 @@ const { handleSubmit, setErrors } = useForm({
 
 // fonction de connexion
 const login = handleSubmit(async (formValue, { resetForm }) => {
-    console.log(formValue);
-    const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(formValue),
-        headers: {
-            'content-Type': 'application/json'
-        }
-    });
-
-    const data = await response.json();
-    console.log(data);
-
-    //* si la connexion a été reussi
-    if (response.ok) {
-        // recuperation de l'id et du token
-        const auth = {
-            userId: data.userId,
-            token: data.token,
-            userStatus: data.userStatus
-        }
-
-        // ajout de l'id et du token dans le local storage
-        localStorage.setItem("auth", JSON.stringify(auth))
-        console.log("connexion reussie");
-        router.push('/home')
-        resetForm();
-    } 
-    else {
+    try {
+        await userStore.login(formValue);
+        router.push('/home');
+    } catch (e) {
         setErrors({
-            email: data.email,
-            password: data.password
+            email: e.email,
+            password: e.password
         });
     }
 })

@@ -3,7 +3,7 @@ const BASE_URL = 'http://localhost:5000/api/auth/';
 //* fonction pour créer un utilisateur
 export async function createUser(data) {
     try {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
+        const response = await fetch(`${BASE_URL}/signup`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -26,7 +26,6 @@ export async function createUser(data) {
         throw e;
     }
 }
-
 
 
 //* fonction pour recuperer le profil d'un utilisateur
