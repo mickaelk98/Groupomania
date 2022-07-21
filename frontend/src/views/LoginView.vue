@@ -34,6 +34,7 @@ const login = handleSubmit(async (formValue, { resetForm }) => {
         await userStore.login(formValue);
         router.push('/home');
     } catch (e) {
+        console.log(e);
         setErrors({
             email: e.email,
             password: e.password

@@ -17,13 +17,10 @@ const userToken = auth.token;
 // recupere les informations sur la route actuelle
 const route = useRoute();
 
-// recupere l'id dans l'url
-const userUrlId = route.params.userId;
+
 
 // recupere le store user
 const useStore = useUser();
-// recupere les information d'un utilisateur
-// console.log(useStore.getUserProfil(userUrlId, userToken));
 
 
 let imageFile = ref('');
@@ -93,36 +90,9 @@ watch(imageFile, (imageFile) => {
 
 // fonction de modification d'un profil
 const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
-    
-    try {
-        // const fd = new FormData()
- 
-        //  fd.append('firstName', formvalue.firstName)
-        //  fd.append('lastName', formvalue.lastName)
-        //  fd.append('email', formvalue.email)
-        //  fd.append('password', formvalue.password)
-        //  fd.append('description', formvalue.description)
-        //  fd.append('image', imageFile.value)
-        useStore.updateUser(localUserId, userToken, formvalue, imageFile.value)
-       
-        // const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
-        //     method: 'PUT',
-        //     body: fd,
-        //     headers: {
-        //         'Authorization': 'Bearer ' + userToken,
-        //     }
-        // })
-
-        // const data = await response.json();
-
-        // if (response.ok) {
-        //     resetForm()
-        // } else {
-        //     setFieldError('description', data.error)
-        // }
-    } catch (e) {
-        console.log(e);
-    }
+    useStore.updateUser(localUserId, userToken, formvalue, imageFile.value);
+    router.push(`/profil/${route.params.userId}`)
+    resetForm();
 })
 
 </script>

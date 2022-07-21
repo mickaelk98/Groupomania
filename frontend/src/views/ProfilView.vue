@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUser } from '../shared/stores/userStore';
 
 // recuperation du userId et du token 
@@ -9,6 +9,8 @@ const userToken = auth.token;
 
 // recupere les informations sur la route actuelle
 const route = useRoute();
+const router = useRouter()
+
 // recupere l'id dans l'url
 const userUrlId = route.params.userId;
 
@@ -17,6 +19,11 @@ const useStore = useUser();
 // recupere les information d'un utilisateur
 useStore.getUserProfil(userUrlId)
 
+// fonction de suppression d'un profil
+const deleteProfil = function() {
+    useStore.deleteUser(userUrlId, userToken)
+    router.push('/')
+}
 
 
 </script>

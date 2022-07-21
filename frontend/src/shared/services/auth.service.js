@@ -16,14 +16,14 @@ export async function login(data) {
     });
 
     const user = await response.json();
-    const auth = {
-        token: user.token,
-        userId: user.user._id
-    }
 
     console.log(user);
     //* si la connexion a été reussi
     if (response.ok) {
+        const auth = {
+            token: user.token,
+            userId: user.user._id
+        }
         localStorage.setItem("auth", JSON.stringify(auth))
         return user.user;
     }

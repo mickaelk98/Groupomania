@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getUserProfil, login, fetchCurrentUser, updateUser } from '../services';
+import { getUserProfil, login, fetchCurrentUser, updateUser, deleteUser } from '../services';
 
 
 
@@ -26,7 +26,6 @@ export const useUser = defineStore('user', {
         async getUserProfil(userId, userToken) {
             const user = await getUserProfil(userId, userToken);
             return user
-            // this.user = user;
         },
         async login(data) {
             try {
@@ -41,6 +40,9 @@ export const useUser = defineStore('user', {
         },
         async updateUser(userId, userToken, data, file) {
             this.user = await updateUser(userId, userToken, data, file)
+        },
+        async deleteUser(userId, userToken) {
+            this.user = await deleteUser(userId, userToken)
         }
     }
 })
