@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import TheHeader from '../components/TheHeader.vue';
 import UpdateProfil from '../components/UpdateProfil.vue';
 import { useUser } from '../shared/stores/userStore';
@@ -9,31 +10,21 @@ const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userToken = auth.token;
 
+// recupere les informations sur la route actuelle
+const route = useRoute();
+// recupere l'id dans l'url
+const userUrlId = route.params.userId;
+
+// recupere le store user
 const useStore = useUser();
-const user = useStore.user;
-useStore.getUserProfil(localUserId)
+// recupere les information d'un utilisateur
+useStore.getUserProfil(userUrlId)
 
 
-const updateFormClass = ref('hidden')
 
-// fonction de suppression d'un profil
-const deleteProfil = async () => {
-    try {
-        const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
-            method: 'DELETE',
-            headers: {
-                'content-Type': 'application/json',
-                'Authorization': 'Bearer ' + userToken,
-            }
-        })
 
-        const data = await response.json();
+const updateFormClass = ref('hidden');
 
-       console.log(data);
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 </script>
 
@@ -48,15 +39,15 @@ const deleteProfil = async () => {
             <div class="container">
                 <h1 class="title">Profil</h1>
                 <div class="left">
-                    <h2 class="name">{{ user.firstName }} {{ user.lastName }} </h2>
-                    <img :src="user.image" alt="photo de profil" class="img-profil">
+                    <h2 class="name">{{ useStore.user.firstName }} {{ useStore.user.lastName }} </h2>
+                    <img :src="useStore.user.image" alt="photo de profil" class="img-profil">
                 </div>
                 <div class="right">
                     <h2 class="title">Email</h2>
-                    <p>{{ user.email }}</p>
+                    <p>{{ useStore.user.email }}</p>
                     <h2 class="title">Description</h2>
                     <p>
-                        {{ user.description }}
+                        {{ useStore.user.description }}
                     </p>
                 </div>
             </div>

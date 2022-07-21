@@ -1,4 +1,11 @@
 <script setup>
+
+// recuperation du userId
+const auth = JSON.parse(localStorage.getItem('auth'));
+const localUserId = auth.userId;
+
+
+// fonction de deconnexion
 const signout = () => {
     localStorage.clear();
 }
@@ -10,7 +17,7 @@ const signout = () => {
         <div class="account">
             <ul>
                 <li>
-                    <router-link to="/profil"><i class="fas fa-user"></i></router-link>
+                    <router-link :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
                 </li>
                 <li>
                     <router-link @click="signout" to="/login"><i class="fas fa-sign-out"></i></router-link>
