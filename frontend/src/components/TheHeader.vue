@@ -15,7 +15,7 @@ const emit = defineEmits();
         <div class="account">
             <ul>
                 <!-- si l'utilisateur est connecté -->
-                <template v-if="isLoggedin">
+                <template v-if="isAuthenticated">
                     <li>
                         <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
                     </li>
@@ -25,7 +25,7 @@ const emit = defineEmits();
                 </template>
 
                 <!-- sinon -->
-                <template v-else>
+                <template v-else-if="isAuthenticated === false">
                     <li>
                          <router-link class="redirect" to="/login">Connexion</router-link>
                     </li>

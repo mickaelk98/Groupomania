@@ -1,5 +1,8 @@
 <script setup>
 import TheHeader from './components/TheHeader.vue';
+import { useUser } from './shared/stores';
+
+const userStore = useUser();
 
 // fonction de deconnexion
 function logout () {
@@ -8,7 +11,7 @@ function logout () {
 </script>
 
 <template>
-  <TheHeader :isLoggedin="false" @logout="logout"/>
+  <TheHeader :isAuthenticated="userStore.isAuthenticated" @logout="logout"/>
   <router-view></router-view>
 </template>
 

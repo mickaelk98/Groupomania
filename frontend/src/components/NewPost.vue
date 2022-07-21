@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import {  toFormValidator } from '@vee-validate/zod'
@@ -118,4 +118,4 @@ getUserProfil();
 
 <style lang="scss" scoped>
 @import '../assets/sass/components/newPost';
-</style>
+</style> -->

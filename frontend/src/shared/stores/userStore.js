@@ -5,12 +5,28 @@ import { getUserProfil, login } from '../services';
 
 export const useUser = defineStore('user', {
     state: () => ({
-        user: {},
+        user: null,
+        loaded: false
     }),
+    getters: {
+        isAuthenticated(state) {
+            // si l'utilisateur est connecté
+            if (state.user) {
+                return true;
+            }
+            // si l'utilisateur n'est pas conecter 
+            else if (state.user && state.loaded) {
+                return false;
+            } else {
+                return null;
+            }
+        }
+    },
     actions: {
         async getUserProfil(userId) {
             const user = await getUserProfil(userId);
-            this.user = user;
+            return user
+            // this.user = user;
         },
         async login(data) {
             try {

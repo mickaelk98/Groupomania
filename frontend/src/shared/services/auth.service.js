@@ -11,10 +11,13 @@ export async function login(data) {
     });
 
     const user = await response.json();
+    const auth = user.token
 
+    console.log(user);
     //* si la connexion a été reussi
     if (response.ok) {
-        return user;
+        localStorage.setItem("auth", JSON.stringify(auth))
+        return user.user;
     }
     else {
         throw user

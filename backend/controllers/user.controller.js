@@ -60,8 +60,7 @@ exports.login = (req, res) => {
                         //* sinon
                         else {
                             res.status(200).json({
-                                userId: user._id,
-                                userStatus: user.isAdmin,
+                                user,
                                 token: jwt.sign(
                                     {
                                         userId: user._id,
