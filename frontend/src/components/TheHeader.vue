@@ -1,10 +1,8 @@
 <script setup>
 
 // recuperation du userId
-// const auth = JSON.parse(localStorage.getItem('auth'));
-// const localUserId = auth.userId;
-
-const isAuthenticated = defineProps();
+const auth = JSON.parse(localStorage.getItem('auth'));
+const localUserId = auth.userId;
 const emit = defineEmits();
 
 </script>
@@ -15,24 +13,12 @@ const emit = defineEmits();
         <div class="account">
             <ul>
                 <!-- si l'utilisateur est connecté -->
-                <template v-if="isAuthenticated"> 
-                    <li>
-                        <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
-                    </li>
-                    <li @click="emit('logout')">
-                        <i class="fas fa-sign-out"></i>
-                    </li>
-                </template>
-
-                <!-- sinon -->
-                <template v-else-if="isAuthenticated === false">
-                    <li>
-                         <router-link class="redirect" to="/login">Connexion</router-link>
-                    </li>
-                    <li>
-                         <router-link class="redirect" to="/">Inscription</router-link>
-                    </li>
-                </template>
+                <li>
+                    <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
+                </li>
+                <li @click="emit('logout')">
+                    <i class="fas fa-sign-out"></i>
+                </li>
             </ul>
         </div>
     </header>

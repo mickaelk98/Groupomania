@@ -1,5 +1,4 @@
 <script setup>
-import TheHeader from './components/TheHeader.vue';
 import { useUser } from './shared/stores';
 
 const userStore = useUser();
@@ -11,7 +10,6 @@ function logout () {
 </script>
 
 <template>
-  <TheHeader :isAuthenticated="userStore.isAuthenticated" @logout="logout"/>
   <router-view></router-view>
 </template>
 

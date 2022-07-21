@@ -3,12 +3,27 @@ import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import {  toFormValidator } from '@vee-validate/zod'
 import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useUser } from '../shared/stores/userStore';
 
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userToken = auth.token;
+
+
+
+// recupere les informations sur la route actuelle
+const route = useRoute();
+
+// recupere l'id dans l'url
+const userUrlId = route.params.userId;
+
+// recupere le store user
+const useStore = useUser();
+// recupere les information d'un utilisateur
+// console.log(useStore.getUserProfil(userUrlId, userToken));
 
 
 let imageFile = ref('');
@@ -80,31 +95,31 @@ watch(imageFile, (imageFile) => {
 const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
     
     try {
-
-        const fd = new FormData()
+        // const fd = new FormData()
  
-         fd.append('firstName', formvalue.firstName)
-         fd.append('lastName', formvalue.lastName)
-         fd.append('email', formvalue.email)
-         fd.append('password', formvalue.password)
-         fd.append('description', formvalue.description)
-         fd.append('image', imageFile.value)
+        //  fd.append('firstName', formvalue.firstName)
+        //  fd.append('lastName', formvalue.lastName)
+        //  fd.append('email', formvalue.email)
+        //  fd.append('password', formvalue.password)
+        //  fd.append('description', formvalue.description)
+        //  fd.append('image', imageFile.value)
+        useStore.updateUser(localUserId, userToken, formvalue, imageFile.value)
        
-        const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
-            method: 'PUT',
-            body: fd,
-            headers: {
-                'Authorization': 'Bearer ' + userToken,
-            }
-        })
+        // const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
+        //     method: 'PUT',
+        //     body: fd,
+        //     headers: {
+        //         'Authorization': 'Bearer ' + userToken,
+        //     }
+        // })
 
-        const data = await response.json();
+        // const data = await response.json();
 
-        if (response.ok) {
-            resetForm()
-        } else {
-            setFieldError('description', data.error)
-        }
+        // if (response.ok) {
+        //     resetForm()
+        // } else {
+        //     setFieldError('description', data.error)
+        // }
     } catch (e) {
         console.log(e);
     }
@@ -114,9 +129,6 @@ const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
 
 <template>
     <form enctype="multipart/form-data" @submit="updateProfil">
-        <div class="delete">
-            <span><i class="far fa-times-circle"></i></span>
-        </div>
 
         <!-- image -->
         <input type="file" id="image" name="image" accept="image/*" @change="displayImage" >
@@ -151,5 +163,5 @@ const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/sass/components/updateProfil';
+@import '../assets/sass/pages/updateProfil';
 </style>

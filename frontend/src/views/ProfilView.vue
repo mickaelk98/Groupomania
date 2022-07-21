@@ -1,8 +1,5 @@
 <script setup>
-import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import TheHeader from '../components/TheHeader.vue';
-import UpdateProfil from '../components/UpdateProfil.vue';
 import { useUser } from '../shared/stores/userStore';
 
 // recuperation du userId et du token 
@@ -21,18 +18,12 @@ const useStore = useUser();
 useStore.getUserProfil(userUrlId)
 
 
-const updateFormClass = ref('hidden');
-
 
 </script>
 
 <template>
-    <TheHeader />
     <div class="profil-page">
         <!-- formulaire de modification -->
-        <div :class="updateFormClass">
-            <UpdateProfil />
-        </div>
         <main class="profil">
             <div class="container">
                 <h1 class="title">Profil</h1>
@@ -50,7 +41,8 @@ const updateFormClass = ref('hidden');
                 </div>
             </div>
             <div class="buttons">
-                <button class="update" @click="updateFormClass = 'visible'">Modifier le profil</button>
+                <!-- <button class="update" @click="updateFormClass = 'visible'">Modifier le profil</button> -->
+                <router-link id="redirect" :to="`/profil/${localUserId}/update`">Modifier le profil</router-link>
                 <button class="delete" @click="deleteProfil">Supprimer le Profil</button>
             </div>
         </main>

@@ -8,7 +8,8 @@
 form {
     position: relative;
     padding: 50px 20px;
-    width: 100%;
+    width: 80%;
+    margin: 50px auto;
     background: $tertiary-color;
     display: flex;
     flex-direction: column;
@@ -44,7 +45,7 @@ form {
 
     textarea {
         resize: none;
-        height: 200px;
+        height: 150px;
     }
     button {
         padding: 8px;

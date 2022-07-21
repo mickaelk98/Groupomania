@@ -3,6 +3,7 @@ import SignupView from '../views/SignupView.vue'
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import ProfilView from '../views/ProfilView.vue'
+import UpdateProfil from '../views/UpdateProfil.vue'
 import { useUser } from '../shared/stores'
 
 const router = createRouter({
@@ -28,14 +29,20 @@ const router = createRouter({
             name: 'profil',
             component: ProfilView
         },
+        {
+            path: '/profil/:userId/update',
+            name: 'UpdateProfil',
+            component: UpdateProfil
+        },
     ]
 })
 
-router.beforeEach(() => {
-    const userStore = useUser();
-    if (!userStore.loaded) {
-        userStore.fetchCurrentUser();
-    }
-})
+// router.beforeEach(() => {
+//     const userStore = useUser();
+//     if (!userStore.loaded) {
+//         userStore.fetchCurrentUser();
+//     }
+// })
+
 
 export default router

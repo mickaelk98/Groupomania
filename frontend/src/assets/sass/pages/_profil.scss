@@ -61,7 +61,8 @@
         display: flex;
         flex-direction: column;
         margin-top: 30px;
-        button {
+        button,
+        #redirect {
             border: none;
             margin: 5px auto;
             width: 80%;
@@ -70,7 +71,9 @@
             cursor: pointer;
             text-transform: uppercase;
         }
-        .update {
+
+        #redirect{
+            box-sizing: border-box;
             background: $secondary-color;
             border: 1px solid $secondary-color;
             color: #444;

@@ -1,7 +1,8 @@
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const fs = require('fs')
+const fs = require('fs');
+const { findOne } = require('../models/Users');
 
 //* formatage des erreurs
 const handleErrors = (err) => {
@@ -141,17 +142,30 @@ exports.updateProfil = (req, res) => {
         return res.status(401).json({ error: 'Requete non autorisé' })
     }
 
-    const userObject = req.file ?
-        //* si l'utilisateur change l'image aussi
-        {
-            ...req.body,
-            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } :
-        //* sinon
-        {
-            ...req.body
-        }
-    User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: "Votre profil a bien été modifié", userObject }))
+    User.findOne({ _id: req.params.id })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ error: "l'utilisateur demandé n'a pas été trouvé" })
+            }
+            else {
+                const userObject = req.file ?
+                    //* si l'utilisateur change l'image aussi
+                    {
+                        ...req.body,
+                        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                    } :
+                    //* sinon
+                    {
+                        ...req.body
+                    }
+
+                User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+                    .then(() => {
+                        return User.findOne({ _id: req.params.id })
+                            .then(user => res.status(201).json(user))
+                    })
+                    .catch(err => res.status(400).json({ err }))
+            }
+        })
         .catch(err => res.status(400).json({ err }))
 }

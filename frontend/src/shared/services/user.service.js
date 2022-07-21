@@ -1,3 +1,4 @@
+
 const BASE_URL = 'http://localhost:5000/api/auth/';
 
 //* fonction pour créer un utilisateur
@@ -29,17 +30,44 @@ export async function createUser(data) {
 
 
 //* fonction pour recuperer le profil d'un utilisateur
-export async function getUserProfil(userId) {
+export async function getUserProfil(userId, userToken) {
 
     try {
         const response = await fetch(`${BASE_URL}/${userId}`, {
             method: 'GET',
             headers: {
                 'content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userToken,
             }
         });
 
         const user = await response.json();
+        console.log(user);
+        return user;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+//* fonction pour mettre a jour un utilisateur
+export async function updateUser(userId, userToken, data, file) {
+    try {
+        const fd = new FormData()
+
+        fd.append('firstName', data.firstName)
+        fd.append('lastName', data.lastName)
+        fd.append('email', data.email)
+        fd.append('password', data.password)
+        fd.append('description', data.description)
+        fd.append('image', file)
+        const response = await fetch(`${BASE_URL}/${userId}`, {
+            method: 'PUT',
+            body: fd,
+            headers: {
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+        const user = await response.json()
         console.log(user);
         return user;
     } catch (e) {
