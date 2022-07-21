@@ -8,6 +8,10 @@ header {
     color: white;
     font-size: 20px;
     height: 80px;
+
+    .redirect{
+        color: white;
+    }
 }
 
 .none {
@@ -15,49 +19,55 @@ header {
 }
 
 .logo-site {
-    width: 55%;
+    width: 40%;
     height: 80px;
     background: url('./src/assets/images/icon-left-font-monochrome-white.svg') center/cover no-repeat;
     background-size: 100%;
 }
 
 .account {
-    width: 20%;
+    width: 50%;
+    max-width: 200px;
     text-align: center;
     cursor: pointer;
+    overflow: hidden;
+    font-size: 16px;
 
     ul {
         display: flex;
         justify-content: space-between;
-    }
-    i {
-        color: white;
+
+        .redirect{
+            margin: 0 5px;
+        }
     }
 }
 
 @media screen and (min-width: 768px) {
-
-    header {
-        height: 80px;
-    }
-
-    .logo-site {
-        width: 40%;
-        height: 80px;
+    .account {
+        width: 30%;
+        header {
+            height: 80px;
+        }
+    
+        .logo-site {
+            width: 40%;
+            height: 80px;
+        }
     }
     
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
-
-    .logo-site {
-        width: 30%;
-        height: 80px;
-    }
-
     .account {
-        width: 15%;
+        width: 30%;
+        font-size: 20px;
+        .logo-site {
+            width: 30%;
+            height: 80px;
+        }
     }
+
 }
 
 @media screen and (min-width: 1441px) {

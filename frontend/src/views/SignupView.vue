@@ -3,6 +3,7 @@ import { useField, useForm } from 'vee-validate';
 import { z } from 'zod';
 import {  toFormValidator } from '@vee-validate/zod';
 import { useRouter } from 'vue-router';
+import { createUser } from '../shared/services/user.service';
 
 
 const router = useRouter()
@@ -34,36 +35,22 @@ const { handleSubmit,setErrors, setFieldError } = useForm({
 
 // fonction d'inscription
 const signup = handleSubmit(async (formValue, { resetForm }) => {
-    console.log(formValue);
-    try {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
-            method: 'POST',
-            body: JSON.stringify(formValue),
-            headers: {
-                'content-Type': 'application/json'
-            }
-        });
+   try {
+    // creation d'un utilisateur
+     await createUser(formValue);
 
-        const data = await response.json();
+    //  redirection vers la page de connexion
+    router.push('/login');
 
-        // si le compte a été crée
-        if (response.ok) {
-            //* redirection sur la page de connexion
-            router.push('/login')
-            resetForm()
-        }
-        //* sinon afficher les erreurs renvoyer par le backend 
-        else {
-           setErrors({
-            firstName: data.errors.firstName,
-            lastName: data.errors.lastName,
-            email: data.errors.email,
-            password: data.errors.password
-           })
-        }
-    } catch (e) {
-        console.log(e);
-    }
+   } catch (e) {
+    console.log(e);
+    setErrors({
+            firstName: e.errors.firstName,
+            lastName: e.errors.lastName,
+            email: e.errors.email,
+            password: e.errors.password
+    })
+   } 
 })
 
 // acpture des saissie de l'utilisateur et verification

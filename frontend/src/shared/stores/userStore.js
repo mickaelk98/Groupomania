@@ -13,5 +13,4 @@ export const useUser = defineStore('user', {
             this.user = user;
         }
     }
-
 })

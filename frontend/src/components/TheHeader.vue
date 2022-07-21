@@ -1,14 +1,12 @@
 <script setup>
 
 // recuperation du userId
-const auth = JSON.parse(localStorage.getItem('auth'));
-const localUserId = auth.userId;
+// const auth = JSON.parse(localStorage.getItem('auth'));
+// const localUserId = auth.userId;
 
+defineProps();
+const emit = defineEmits();
 
-// fonction de deconnexion
-const signout = () => {
-    localStorage.clear();
-}
 </script>
 
 <template>
@@ -16,12 +14,25 @@ const signout = () => {
         <div class="logo-site"></div>
         <div class="account">
             <ul>
-                <li>
-                    <router-link :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
-                </li>
-                <li>
-                    <router-link @click="signout" to="/login"><i class="fas fa-sign-out"></i></router-link>
-                </li>
+                <!-- si l'utilisateur est connecté -->
+                <template v-if="isLoggedin">
+                    <li>
+                        <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
+                    </li>
+                    <li @click="emit('logout')">
+                        <i class="fas fa-sign-out"></i>
+                    </li>
+                </template>
+
+                <!-- sinon -->
+                <template v-else>
+                    <li>
+                         <router-link class="redirect" to="/login">Connexion</router-link>
+                    </li>
+                    <li>
+                         <router-link class="redirect" to="/">Inscription</router-link>
+                    </li>
+                </template>
             </ul>
         </div>
     </header>
