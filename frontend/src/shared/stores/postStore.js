@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAllPost, createPost, deletePost, updatePost } from '../services/post.services';
+import { getAllPost, createPost, deletePost, updatePost } from '../services/post.service';
 
 
 export const usePosts = defineStore('posts', {
