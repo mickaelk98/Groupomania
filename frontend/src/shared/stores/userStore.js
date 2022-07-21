@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getUserProfil, login } from '../services';
+import { getUserProfil, login, fetchCurrentUser } from '../services';
 
 
 
@@ -15,7 +15,7 @@ export const useUser = defineStore('user', {
                 return true;
             }
             // si l'utilisateur n'est pas conecter 
-            else if (state.user && state.loaded) {
+            else if (!state.user && state.loaded) {
                 return false;
             } else {
                 return null;
@@ -34,6 +34,10 @@ export const useUser = defineStore('user', {
             } catch (e) {
                 throw e;
             }
+        },
+        async fetchCurrentUser() {
+            this.user = await fetchCurrentUser();
+            this.loaded = true;
         }
     }
 })

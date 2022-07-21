@@ -4,7 +4,7 @@
 // const auth = JSON.parse(localStorage.getItem('auth'));
 // const localUserId = auth.userId;
 
-defineProps();
+const isAuthenticated = defineProps();
 const emit = defineEmits();
 
 </script>
@@ -15,7 +15,7 @@ const emit = defineEmits();
         <div class="account">
             <ul>
                 <!-- si l'utilisateur est connecté -->
-                <template v-if="isAuthenticated">
+                <template v-if="isAuthenticated"> 
                     <li>
                         <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
                     </li>

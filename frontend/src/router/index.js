@@ -3,6 +3,7 @@ import SignupView from '../views/SignupView.vue'
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import ProfilView from '../views/ProfilView.vue'
+import { useUser } from '../shared/stores'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -28,6 +29,13 @@ const router = createRouter({
             component: ProfilView
         },
     ]
+})
+
+router.beforeEach(() => {
+    const userStore = useUser();
+    if (!userStore.loaded) {
+        userStore.fetchCurrentUser();
+    }
 })
 
 export default router
