@@ -87,7 +87,6 @@ export async function deleteUser(userId, userToken) {
         if (response.ok) {
             console.log(user);
             localStorage.clear();
-            router.push('/')
             return null;
         }
         console.log(user);
