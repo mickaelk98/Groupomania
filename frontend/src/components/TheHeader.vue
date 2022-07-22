@@ -16,11 +16,15 @@ function logout() {
     router.push('/login');
 }
 
+function goHome() {
+    router.push('/home');
+}
+
 </script>
 
 <template>
     <header>
-        <div class="logo-site"></div>
+        <div class="logo-site" @click="goHome"></div>
         <div class="account">
             <ul>
                 <!-- si l'utilisateur est connecté -->
@@ -42,6 +46,7 @@ function logout() {
     height: 80px;
     background: url('../assets/images/icon-left-font-monochrome-white.png') center/cover no-repeat;
     background-size: 100%;
+    cursor: pointer;
 }
 
 </style>

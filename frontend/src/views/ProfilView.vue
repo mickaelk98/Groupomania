@@ -21,8 +21,8 @@ const useStore = useUser();
 useStore.getUserProfil(userUrlId)
 
 // fonction de suppression d'un profil
-const deleteProfil = function() {
-    useStore.deleteUser(userUrlId, userToken)
+const deleteProfil = async function() {
+    await useStore.deleteUser(userUrlId, userToken)
     router.push('/')
 }
 
