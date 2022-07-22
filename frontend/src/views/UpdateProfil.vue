@@ -118,7 +118,7 @@ const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
         }
         if (formvalue.description === undefined) {
             console.log(user.description);
-            formvalue.description = ""
+            formvalue.description = user.description
         }
         if(imageFile.value === "") {
             console.log(imageFile.value, user.image);

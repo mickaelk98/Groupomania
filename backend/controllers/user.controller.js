@@ -141,23 +141,53 @@ exports.updateProfil = (req, res) => {
     if (req.params.id !== req.auth.userId) {
         return res.status(401).json({ error: 'Requete non autorisé' })
     }
-
+    // console.log(req.body.password);
+    if (req.body.email !== 'undefined') {
+        console.log("mail");
+    } else {
+        console.log("pas de mail");
+    }
     User.findOne({ _id: req.params.id })
         .then(user => {
             if (!user) {
                 return res.status(404).json({ error: "l'utilisateur demandé n'a pas été trouvé" })
             }
             else {
-                const userObject = req.file ?
-                    //* si l'utilisateur change l'image aussi
-                    {
-                        ...req.body,
-                        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                    } :
-                    //* sinon
-                    {
-                        ...req.body
-                    }
+                const userObject = {
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    description: req.body.description
+                }
+                //* si il y a une image
+                if (req.file) {
+                    userObject.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                }
+                //* si il y a un mot de passe
+                if (req.body.password !== 'undefined') {
+                    bcrypt.hash(req.body.password, 10)
+                        .then(hash => {
+                            userObject.password = hash
+                        })
+                        .catch(err => res.status(400).json({ message: "echec lors du cryptage du mot de passe", err }))
+                }
+                //* si il y a une email
+                if (req.body.email !== user.email) {
+                    userObject.email = req.body.email
+                }
+
+                // if (!req.body.email) {
+
+                // }
+                // const userObject = req.file ?
+                //     //* si l'utilisateur change l'image aussi
+                //     {
+                //         ...req.body,
+                //         image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                //     } :
+                //     //* sinon
+                //     {
+                //         ...req.body
+                //     }
 
                 User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
                     .then(() => {
