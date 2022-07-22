@@ -5,42 +5,48 @@ import HomeView from '../views/HomeView.vue'
 import ProfilView from '../views/ProfilView.vue'
 import UpdateProfil from '../views/UpdateProfil.vue'
 import { useUser } from '../shared/stores'
+import { isNotAuthenticatedGuard, isAuthenticatedGuard } from '../shared/guards'
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
+            beforeEnter: [isNotAuthenticatedGuard],
             name: 'signup',
             component: SignupView
         },
         {
             path: '/login',
+            beforeEnter: [isNotAuthenticatedGuard],
             name: 'login',
             component: LoginView
         },
         {
             path: '/home',
+            beforeEnter: [isAuthenticatedGuard],
             name: 'home',
             component: HomeView
         },
         {
             path: '/profil/:userId',
+            beforeEnter: [isAuthenticatedGuard],
             name: 'profil',
             component: ProfilView
         },
         {
             path: '/profil/:userId/update',
+            beforeEnter: [isAuthenticatedGuard],
             name: 'UpdateProfil',
             component: UpdateProfil
         },
     ]
 })
 
-router.beforeEach(() => {
+router.beforeEach(async () => {
     const userStore = useUser();
     if (!userStore.loaded) {
-        userStore.fetchCurrentUser();
+        await userStore.fetchCurrentUser();
     }
 })
 
