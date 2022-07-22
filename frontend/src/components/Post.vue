@@ -1,4 +1,7 @@
 <script setup>
+import { useForm, useField } from 'vee-validate'
+import { z } from 'zod'
+import {  toFormValidator } from '@vee-validate/zod'
 import { usePosts } from '../shared/stores/postStore';
 
 
@@ -14,6 +17,20 @@ const postStore = usePosts()
 // recupere tout les post
 postStore.getAllPosts()
 
+const validationSchema = toFormValidator(z.object({
+    text: z.optional(
+        z.string()
+           .max(200, "votre post doit faire moin de 200 caractere")
+    )
+}))
+
+// acceder au donnés du formulaire a sa soumission
+const { handleSubmit, setErrors } = useForm({
+   validationSchema
+})
+
+const { value: textValue , errorMessage: textError } = useField('text');
+
 // supprime un post
 const deletePost = async function(postId) {
     try {
@@ -23,10 +40,20 @@ const deletePost = async function(postId) {
     }
 }
 
+
+// liké un post
+const likePost = async function(postId) {
+    try {
+        postStore.likePost(postId)
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 </script>
 
 <template>
-    <div class="post" v-for="post in postStore.$state.posts.reverse()" :key="post._id">
+    <div class="post" v-for="post in postStore.$state.posts" :key="post._id">
         <div class="img-name">
             <img :src="post.posterImage" alt="photo de profil">
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
@@ -50,13 +77,13 @@ const deletePost = async function(postId) {
 
         <!-- like et commentaire -->
         <div class="like-comment">
-            <span><i class="far fa-heart"></i> {{ post.likes }} likes </span>
+            <span><i @click="likePost(post._id)" class="far fa-heart"></i> {{ post.likes }} likes </span>
             <span><i class="far fa-comment"></i> {{ post.comments.length }} commentaires</span>
         </div>
 
         <!-- mettre un commentaire -->
         <form>
-            <textarea placeholder="Mettre uncommentaire"></textarea>
+            <textare placeholder="Mettre uncommentaire"></textare>
             <button>Envoyer</button>
         </form>
 

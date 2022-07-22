@@ -82,3 +82,27 @@ export async function createPost(userToken, data) {
         throw e
     }
 }
+
+//* fonction pour liké un post
+export async function likePost(postId) {
+
+    try {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        const userToken = auth.token;
+
+        const response = await fetch(`${BASE_URL}/like/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+
+        const post = await response.json();
+        if (response.ok) {
+            console.log(post);
+            return post;
+        }
+    } catch (e) {
+        throw e
+    }
+}

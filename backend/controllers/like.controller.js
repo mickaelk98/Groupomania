@@ -17,7 +17,10 @@ exports.likePost = (req, res) => {
                         $pull: { usersLiked: req.auth.userId }
                     }
                 )
-                    .then(() => res.status(201).json({ message: "Vous avez enlevez votre like le post" }))
+                    .then(() => {
+                        return Post.findOne({ _id: req.params.id })
+                            .then((post) => res.status(201).json(post))
+                    })
                     .catch(err => res.status(400).json({ err }))
             }
             //* sinon si l'utilisateur veut liké
@@ -29,7 +32,10 @@ exports.likePost = (req, res) => {
                         $push: { usersLiked: req.auth.userId }
                     }
                 )
-                    .then(() => res.status(201).json({ message: "Vous avez bien liké le post" }))
+                    .then(() => {
+                        return Post.findOne({ _id: req.params.id })
+                            .then((post) => res.status(201).json(post))
+                    })
                     .catch(err => res.status(400).json({ err }))
             }
         })
