@@ -49,13 +49,21 @@ export async function fetchCurrentUser() {
             });
 
             const user = response.json();
-            return user;
+            if (response.ok) {
+                return user;
+            }
+            return null;
         } else {
-            return null
+            return null;
         }
 
     } catch (e) {
         console.log(e);
         return null;
     }
+}
+
+//* fonction de deconnexion
+export function logout() {
+    localStorage.clear();
 }

@@ -37,12 +37,12 @@ const router = createRouter({
     ]
 })
 
-// router.beforeEach(() => {
-//     const userStore = useUser();
-//     if (!userStore.loaded) {
-//         userStore.fetchCurrentUser();
-//     }
-// })
+router.beforeEach(() => {
+    const userStore = useUser();
+    if (!userStore.loaded) {
+        userStore.fetchCurrentUser();
+    }
+})
 
 
 export default router

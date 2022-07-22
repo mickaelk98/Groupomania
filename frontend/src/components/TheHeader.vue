@@ -1,9 +1,20 @@
 <script setup>
+import { useRouter } from 'vue-router';
+import { useUser } from '../shared/stores';
+
 
 // recuperation du userId
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
-const emit = defineEmits();
+
+const userStore = useUser();
+const router = useRouter()
+
+// fonction de deconnexion
+function logout() {
+    userStore.logout();
+    router.push('/login');
+}
 
 </script>
 
@@ -16,7 +27,7 @@ const emit = defineEmits();
                 <li>
                     <router-link class="redirect" :to="`/profil/${localUserId}`"><i class="fas fa-user"></i></router-link>
                 </li>
-                <li @click="emit('logout')">
+                <li @click="logout">
                     <i class="fas fa-sign-out"></i>
                 </li>
             </ul>
