@@ -83,7 +83,7 @@ const likePost = async function(postId) {
 
         <!-- mettre un commentaire -->
         <form>
-            <textare placeholder="Mettre uncommentaire"></textare>
+            <textarea placeholder="Mettre uncommentaire"></textarea>
             <button>Envoyer</button>
         </form>
 
