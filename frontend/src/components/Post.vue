@@ -57,7 +57,9 @@ const likePost = async function(postId) {
 <template>
     <div class="post" v-for="post in postStore.$state.posts" :key="post._id">
         <div class="img-name">
-            <img :src="post.posterImage" alt="photo de profil">
+            <router-link :to="`/profil/${localUserId}`">
+                <img :src="post.posterImage" alt="photo de profil">
+            </router-link>
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
             <p class="post-date">{{ Date(post.timestamp).split('GMT')[0]  }}</p>
         </div>
