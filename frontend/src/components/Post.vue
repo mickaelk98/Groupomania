@@ -29,7 +29,9 @@ const { handleSubmit, setErrors } = useForm({
    validationSchema
 })
 
-const { value: textValue , errorMessage: textError } = useField('text');
+const { value: e , errorMessage: textError } = useField('text');
+
+
 
 // supprime un post
 const deletePost = async function(postId) {
@@ -89,7 +91,7 @@ const likePost = async function(postId) {
 
         <!-- commentaire du post -->
         <!-- <div class="all-comment" v-for="comment in state.posts.comments"> -->
-        <div class="all-comment" v-for="comment in postStore.posts.comments">
+        <div class="all-comment" v-for="comment in postStore.$state.posts.comments">
             <div class="comment-block">
                 <div class="commenter-info">
                     <img :src="comment.commenterImage" alt="photo de profil" class="logo-img">

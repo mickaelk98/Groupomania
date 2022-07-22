@@ -2,7 +2,7 @@ const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const fs = require('fs');
-const { findOne } = require('../models/Users');
+
 
 //* formatage des erreurs
 const handleErrors = (err) => {
@@ -68,6 +68,7 @@ exports.login = (req, res) => {
                                         userStatus: user.isAdmin,
                                         userFirstName: user.firstName,
                                         userLastName: user.lastName,
+                                        userEmail: user.email,
                                         userImage: user.image
                                     },
                                     `${process.env.JWT_SECRET_KEY}`,

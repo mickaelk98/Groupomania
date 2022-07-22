@@ -2,14 +2,22 @@ const Post = require('../models/post');
 const fs = require('fs')
 
 
+//* verifie si l'utilisateur est administrateur
+const isAdmin = (email, status) => {
+    if (email === process.env.ADMIN_USERNAME || status) {
+        return true
+    } else {
+        return false
+    }
+}
 
 //* controller pour créer un post
 exports.createPost = (req, res) => {
     console.log(req.body.text, req.file);
     //* verifie si la post contient une image ou un text
-    // if (req.body.text === 'undefined' && !req.file) {
-    //     return res.status(400).json({ error: 'Pour créer un post vous devez envoyer un message ou une image' })
-    // }
+    if (req.body.text === 'undefined' && !req.file) {
+        return res.status(400).json({ error: 'Pour créer un post vous devez envoyer un message ou une image' })
+    }
 
     //* verifi si le post contient une image ou non
     const postObject = req.file ?
@@ -62,7 +70,8 @@ exports.updatePost = (req, res) => {
                     return res.status(404).json({ message: "Le post n'a pas été trouvé" })
                 }
                 //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-                if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
+                const admin = isAdmin(req.auth.userEmail, req.auth.userStatus);
+                if (post.posterId !== req.auth.userId && admin === false) {
                     return res.status(401).json({ message: 'Requete non autorisé' })
                 } else {
 
@@ -104,7 +113,8 @@ exports.deletePost = (req, res) => {
                 return res.status(404).json({ message: "Le post n'a pas été trouvé" })
             }
             //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-            if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
+            const admin = isAdmin(req.auth.userEmail, req.auth.userStatus);
+            if (post.posterId !== req.auth.userId && admin === false) {
                 return res.status(401).json({ message: 'Requete non autorisé' })
             } else {
 
