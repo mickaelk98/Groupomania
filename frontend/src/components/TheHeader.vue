@@ -10,6 +10,7 @@ const localUserId = auth.userId;
 const userStore = useUser();
 const router = useRouter()
 
+
 // fonction de deconnexion
 function logout() {
     userStore.logout();

@@ -6,7 +6,8 @@ import { getUserProfil, login, fetchCurrentUser, updateUser, deleteUser, logout 
 export const useUser = defineStore('user', {
     state: () => ({
         user: null,
-        loaded: false
+        loaded: false,
+        otherUser: null,
     }),
     getters: {
         isAuthenticated(state) {
@@ -47,6 +48,9 @@ export const useUser = defineStore('user', {
         },
         async deleteUser(userId, userToken) {
             this.user = await deleteUser(userId, userToken)
+        },
+        async getOtherUserInfo(userId) {
+            this.otherUser = await getUserProfil(userId)
         }
     }
 })
