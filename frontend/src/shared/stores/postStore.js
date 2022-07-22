@@ -19,8 +19,8 @@ export const usePosts = defineStore('posts', {
             const newPost = await createPost(userToken, data);
             this.posts.push(newPost);
         },
-        async deletePost(postId, userToken) {
-            await deletePost(postId, userToken);
+        async deletePost(postId) {
+            await deletePost(postId);
             const index = this.posts.findIndex(t => t._id === postId);
             this.posts.splice(index, 1);
         },

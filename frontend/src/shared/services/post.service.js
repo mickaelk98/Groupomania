@@ -15,16 +15,27 @@ export async function getAllPost() {
 }
 
 //* fonction pour supprimer un post 
-export async function deletePost(postId, userToken) {
-    const response = await fetch(`${BASE_URL}/${postId}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': 'Bearer ' + userToken,
-        }
-    });
+export async function deletePost(postId) {
+    try {
+        // recuperation du userId et du token 
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        const userToken = auth.token;
 
-    const posts = await response.json();
-    return posts;
+        const response = await fetch(`${BASE_URL}/${postId}`, {
+            method: 'DELETE',
+            headers: {
+                'content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+
+        const post = await response.json();
+        console.log(post);
+
+        return post;
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 //* fonction pour mettre a jour un post

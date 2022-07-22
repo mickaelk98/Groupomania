@@ -10,12 +10,23 @@ const userToken = auth.token;
 
 // recuperation du store
 const postStore = usePosts()
+
+// recupere tout les post
 postStore.getAllPosts()
+
+// supprime un post
+const deletePost = async function(postId) {
+    try {
+        await postStore.deletePost(postId)
+    } catch (e) {
+
+    }
+}
 
 </script>
 
 <template>
-    <div class="post" v-for="post in postStore.posts" :key="post._id">
+    <div class="post" v-for="post in postStore.$state.posts.reverse()" :key="post._id">
         <div class="img-name">
             <img :src="post.posterImage" alt="photo de profil">
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
@@ -25,14 +36,14 @@ postStore.getAllPosts()
         <!-- boutton de modification et suppression de post -->
         <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
             <button class="btn btn-update">Modifier</button>
-            <button class="btn btn-delete">Supprimer</button>
+            <button class="btn btn-delete" @click="deletePost(post._id)">Supprimer</button>
         </div>
 
         <!-- image du post -->
-        <img :src="post.image" alt="image du post" class="post-image" v-if="!post.image">
+        <img :src="post.image" alt="image du post" class="post-image" v-if="post.image !== ''">
 
         <!-- message du post -->
-        <p>
+        <p v-if="post.text !== 'undefined'">
             {{ post.text }}
         </p>
 
