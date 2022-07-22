@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import ProfilView from '../views/ProfilView.vue'
 import UpdateProfil from '../views/UpdateProfil.vue'
+import UpdatePost from '../views/UpdatePost.vue'
 import { useUser } from '../shared/stores'
 import { isNotAuthenticatedGuard, isAuthenticatedGuard } from '../shared/guards'
 
@@ -27,6 +28,12 @@ const router = createRouter({
             beforeEnter: [isAuthenticatedGuard],
             name: 'home',
             component: HomeView
+        },
+        {
+            path: '/home/editPost/:postId',
+            beforeEnter: [isAuthenticatedGuard],
+            name: 'updatePost',
+            component: UpdatePost
         },
         {
             path: '/profil/:userId',

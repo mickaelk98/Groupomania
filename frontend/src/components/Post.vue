@@ -35,7 +35,8 @@ const deletePost = async function(postId) {
 
         <!-- boutton de modification et suppression de post -->
         <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
-            <button class="btn btn-update">Modifier</button>
+            <router-link :to="`/home/editPost/${post._id}`" class="btn btn-update">Modifier</router-link>
+            <!-- <button class="btn btn-update">Modifier</button> -->
             <button class="btn btn-delete" @click="deletePost(post._id)">Supprimer</button>
         </div>
 
