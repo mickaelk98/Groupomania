@@ -37,4 +37,11 @@ function logout() {
 
 <style lang="scss" scoped>
 @import '../assets/sass/components/header';
+.logo-site {
+    width: 40%;
+    height: 80px;
+    background: url('../assets/images/icon-left-font-monochrome-white.png') center/cover no-repeat;
+    background-size: 100%;
+}
+
 </style>

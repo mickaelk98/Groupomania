@@ -29,27 +29,33 @@ export async function createUser(data) {
 
 
 //* fonction pour recuperer le profil d'un utilisateur
-export async function getUserProfil(userId, userToken) {
+export async function getUserProfil(userId) {
 
     try {
         const response = await fetch(`${BASE_URL}/${userId}`, {
             method: 'GET',
             headers: {
                 'content-Type': 'application/json',
-                'Authorization': 'Bearer ' + userToken,
             }
         });
 
         const user = await response.json();
-        return user;
+        console.log(user);
+        if (response.ok) {
+
+            return user;
+        } else {
+            return null
+        }
     } catch (e) {
         console.log(e);
     }
 }
 
 //* fonction pour mettre a jour un utilisateur
-export async function updateUser(userId, userToken, data, file) {
+export async function updateUser(userId, userToken, data) {
     try {
+
         const fd = new FormData()
 
         fd.append('firstName', data.firstName)
@@ -57,7 +63,7 @@ export async function updateUser(userId, userToken, data, file) {
         fd.append('email', data.email)
         fd.append('password', data.password)
         fd.append('description', data.description)
-        fd.append('image', file)
+        fd.append('image', data.image)
         const response = await fetch(`${BASE_URL}/${userId}`, {
             method: 'PUT',
             body: fd,
@@ -67,9 +73,15 @@ export async function updateUser(userId, userToken, data, file) {
         });
         const user = await response.json()
         console.log(user);
-        return user;
+        if (response.ok) {
+
+            return user;
+        }
+        else {
+            throw user
+        }
     } catch (e) {
-        console.log(e);
+        throw e;
     }
 }
 

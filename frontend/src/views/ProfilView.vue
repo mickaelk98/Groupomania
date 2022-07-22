@@ -1,4 +1,5 @@
 <script setup>
+import TheHeader from '../components/TheHeader.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUser } from '../shared/stores/userStore';
 
@@ -29,6 +30,7 @@ const deleteProfil = function() {
 </script>
 
 <template>
+    <TheHeader />
     <div class="profil-page">
         <!-- formulaire de modification -->
         <main class="profil">

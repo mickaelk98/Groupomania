@@ -1,9 +1,10 @@
 <script setup>
+import TheHeader from '../components/TheHeader.vue';
 import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import {  toFormValidator } from '@vee-validate/zod'
 import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUser } from '../shared/stores/userStore';
 
 
@@ -16,15 +17,16 @@ const userToken = auth.token;
 
 // recupere les informations sur la route actuelle
 const route = useRoute();
-
+const router = useRouter();
 
 
 // recupere le store user
-const useStore = useUser();
+
 
 
 let imageFile = ref('');
 let imageUrl = ref('');
+
 
 
 // verifie les données saisie par l'utilisateur
@@ -56,9 +58,11 @@ const validationSchema = toFormValidator(z.object({
     )
 }))
 
+
 // acceder au donnés du formulaire a sa soumission
-const { handleSubmit, setFieldError } = useForm({
-   validationSchema
+const { handleSubmit, setErrors } = useForm({
+   validationSchema,
+//    initialValues
 })
 
 //verification des saisie de l'utilisateur
@@ -71,7 +75,7 @@ const { value: descriptionValue, errorMessage: descriptionError} = useField('des
 // affiche l'image séléctioné
 const displayImage = (e) => {
     if (e.target.files.length === 0) {
-        return
+        return false
     }
     imageFile.value = e.target.files[0];
 
@@ -90,14 +94,53 @@ watch(imageFile, (imageFile) => {
 
 // fonction de modification d'un profil
 const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
-    useStore.updateUser(localUserId, userToken, formvalue, imageFile.value);
-    router.push(`/profil/${route.params.userId}`)
-    resetForm();
+    try {
+        const useStore = useUser();
+       const user = await useStore.getUserProfil(route.params.userId);
+       console.log(user.image);
+       console.log(imageFile.value);
+    
+        if (formvalue.firstName === undefined) {
+            console.log(user.firstName);
+            formvalue.firstName = user.firstName
+        }
+        if (formvalue.lastName === undefined) {
+            console.log(user.lastName);
+            formvalue.lastName = user.lastName
+        }
+        if (formvalue.email === undefined) {
+            console.log(user.email);
+            formvalue.email = user.email
+        }
+        if (formvalue.password === undefined) {
+            console.log(user.password);
+            delete formvalue.password
+        }
+        if (formvalue.description === undefined) {
+            console.log(user.description);
+            formvalue.description = ""
+        }
+        if(imageFile.value === "") {
+            console.log(imageFile.value, user.image);
+            formvalue.image = user.image;
+        } else {
+            formvalue.image = imageFile.value;
+        }
+      
+        await useStore.updateUser(localUserId, userToken, formvalue);
+        router.push(`/profil/${route.params.userId}`)
+        resetForm();
+    } catch (e) {
+        setErrors({
+            description: e.error
+        })
+    }
 })
 
 </script>
 
 <template>
+    <TheHeader />
     <form enctype="multipart/form-data" @submit="updateProfil">
 
         <!-- image -->

@@ -23,8 +23,8 @@ export const useUser = defineStore('user', {
         }
     },
     actions: {
-        async getUserProfil(userId, userToken) {
-            const user = await getUserProfil(userId, userToken);
+        async getUserProfil(userId) {
+            const user = await getUserProfil(userId);
             return user
         },
         async login(data) {
@@ -42,8 +42,8 @@ export const useUser = defineStore('user', {
             this.user = await fetchCurrentUser();
             this.loaded = true;
         },
-        async updateUser(userId, userToken, data, file) {
-            this.user = await updateUser(userId, userToken, data, file)
+        async updateUser(userId, userToken, data) {
+            this.user = await updateUser(userId, userToken, data)
         },
         async deleteUser(userId, userToken) {
             this.user = await deleteUser(userId, userToken)
