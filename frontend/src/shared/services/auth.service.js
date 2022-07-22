@@ -34,7 +34,6 @@ export async function login(data) {
 
 export async function fetchCurrentUser() {
     try {
-        console.log(localStorage.getItem('auth'));
         if (localStorage.getItem('auth')) {
 
             const auth = JSON.parse(localStorage.getItem('auth'));

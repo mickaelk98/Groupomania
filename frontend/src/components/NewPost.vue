@@ -1,8 +1,9 @@
-<!-- <script setup>
+<script setup>
 import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import {  toFormValidator } from '@vee-validate/zod'
-import {  reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
+import { usePosts, useUser } from '../shared/stores';
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
@@ -10,9 +11,10 @@ const localUserId = auth.userId;
 const userToken = auth.token;
 
 // gere l'éta des donnée
-const state = reactive({
-    user: {}
-});
+const userStore = useUser();
+const postStore = usePosts();
+
+const user =  userStore.getUserProfil(localUserId)
 
 let imageFile = ref('');
 let imageUrl = ref('');
@@ -26,7 +28,7 @@ const validationSchema = toFormValidator(z.object({
 }))
 
 // acceder au donnés du formulaire a sa soumission
-const { handleSubmit, setFieldError } = useForm({
+const { handleSubmit, setErrors } = useForm({
    validationSchema
 })
 
@@ -53,57 +55,29 @@ watch(imageFile, (imageFile) => {
 })
 
 
-// recuperation des donnée de l'utilisateur
-const getUserProfil = async () => {
-    const response = await fetch('http://localhost:5000/api/auth/'+ localUserId, {
-        headers: {
-            'content-Type': 'application/json',
-            'Authorization': 'Bearer ' + userToken,
-        }
-    });
-
-    const user = await response.json();
-    state.user = user;
-}
-
 // fonction de creation d'un post
-const createPost = handleSubmit(async (formValue, { resetForm }) => {
+const createPost = handleSubmit(async (formvalue, { resetForm }) => {
     try {
-        const fd = new FormData()
-    
-        fd.append('text', formValue.text)
-        fd.append('image', imageFile.value)
-        const response = await fetch('http://localhost:5000/api/post/',
-        {
-            method: 'POST',
-            body: fd,
-            headers: {
-                'Authorization': 'Bearer ' + userToken,
-            }
-        });
-
-        const post = await response.json();
-
-        if (response.ok) {
-            resetForm()
-        } else {
-            setFieldError('text', post.error)
-        }
-
-    } catch(e) {
+        formvalue.image = imageFile.value;
+        console.log(imageFile.value);
+        await postStore.createPost(userToken, formvalue)
+        resetForm();
+    } catch (e) {
+        setErrors({
+            text: e.error
+        })
         console.log(e);
     }
 })
 
-getUserProfil();
 </script>
 
 <template>
     <div class="new-post">
             <form enctype="multipart/form-data" @submit="createPost">
                 <div class="img-name">
-                    <img :src="state.user.image" alt="photo de profil">
-                    <p>{{ state.user.firstName }} {{ state.user.lastName }}</p>
+                    <img :src="userStore.$state.user.image" alt="photo de profil">
+                    <p>{{ userStore.$state.user.firstName }} {{ userStore.$state.user.lastName }}</p>
                 </div>
                 <textarea v-model="textValue" placeholder="Faite un nouveaux post"></textarea>
                 <small class="errors" v-if="textError" >{{ textError }}</small>
@@ -118,4 +92,4 @@ getUserProfil();
 
 <style lang="scss" scoped>
 @import '../assets/sass/components/newPost';
-</style> -->
+</style>

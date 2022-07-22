@@ -174,21 +174,6 @@ exports.updateProfil = (req, res) => {
                 if (req.body.email !== user.email) {
                     userObject.email = req.body.email
                 }
-
-                // if (!req.body.email) {
-
-                // }
-                // const userObject = req.file ?
-                //     //* si l'utilisateur change l'image aussi
-                //     {
-                //         ...req.body,
-                //         image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                //     } :
-                //     //* sinon
-                //     {
-                //         ...req.body
-                //     }
-
                 User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
                     .then(() => {
                         return User.findOne({ _id: req.params.id })

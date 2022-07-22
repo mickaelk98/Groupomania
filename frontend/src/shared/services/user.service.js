@@ -40,7 +40,6 @@ export async function getUserProfil(userId) {
         });
 
         const user = await response.json();
-        console.log(user);
         if (response.ok) {
 
             return user;

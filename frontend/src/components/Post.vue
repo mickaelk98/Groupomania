@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { usePosts } from '../shared/stores/postStore';
 
 
@@ -67,4 +67,4 @@ postStore.getAllPosts()
 
 <style lang="scss" scoped>
 @import '../assets/sass/components/post';
-</style> -->
+</style>
