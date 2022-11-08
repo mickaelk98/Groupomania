@@ -79,7 +79,6 @@ const createPost = handleSubmit(async (formvalue, { resetForm }) => {
                 <router-link :to="`/profil/${userStore.$state.user._id}`">
                     <img :src="userStore.$state.user.image" alt="photo de profil">
                 </router-link>
-                    <!-- <img :src="userStore.$state.user.image" alt="photo de profil"> -->
                     <p>{{ userStore.$state.user.firstName }} {{ userStore.$state.user.lastName }}</p>
                 </div>
                 <textarea v-model="textValue" placeholder="Faite un nouveaux post"></textarea>

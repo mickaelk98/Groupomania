@@ -61,7 +61,7 @@ const likePost = async function(postId) {
                 <img :src="post.posterImage" alt="photo de profil">
             </router-link>
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
-            <p class="post-date">{{ Date(post.timestamp).split('GMT')[0]  }}</p>
+            <p class="post-date">{{  post.createdAt.split('T')[0] }} a {{  post.createdAt.split('T')[1].split('.')[0] }}</p>
         </div>
 
         <!-- boutton de modification et suppression de post -->
