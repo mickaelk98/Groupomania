@@ -6,6 +6,14 @@ export const usePosts = defineStore('posts', {
     state: () => ({
         posts: []
     }),
+    getters: {
+        ordererPosts(state) {
+            const result = state.posts.sort((a, b) => {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            })
+            return result
+        }
+    },
     actions: {
         async getAllPosts() {
             const posts = await getAllPost();
