@@ -38,7 +38,7 @@ const deletePost = async function(postId) {
     try {
         await postStore.deletePost(postId)
     } catch (e) {
-
+        console.log(e);
     }
 }
 

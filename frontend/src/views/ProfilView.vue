@@ -54,8 +54,8 @@ const deleteProfil = async function() {
             </div>
             <div class="buttons">
                 <!-- <button class="update" @click="updateFormClass = 'visible'">Modifier le profil</button> -->
-                <router-link id="redirect" :to="`/profil/${localUserId}/update`">Modifier le profil</router-link>
-                <button class="delete" @click="deleteProfil">Supprimer le Profil</button>
+                <router-link id="redirect" :to="`/profil/${localUserId}/update`" v-if="localUserId === userUrlId">Modifier le profil</router-link>
+                <button class="delete" @click="deleteProfil" v-if="localUserId === userUrlId">Supprimer le Profil</button>
             </div>
         </main>
     </div>
