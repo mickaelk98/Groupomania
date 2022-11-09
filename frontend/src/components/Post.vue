@@ -1,10 +1,6 @@
 <script setup>
-import { useForm, useField } from 'vee-validate'
-import { z } from 'zod'
-import {  toFormValidator } from '@vee-validate/zod'
 import { usePosts } from '../shared/stores/postStore';
 import { reactive } from 'vue';
-
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
@@ -19,13 +15,6 @@ const postStore = usePosts()
 
 // recupere tout les post
 postStore.getAllPosts()
-
-const validationSchema = toFormValidator(z.object({
-    text: z.optional(
-        z.string()
-           .max(200, "votre commentaire doit faire moin de 200 caractere")
-    )
-}))
 
 // supprime un post
 const deletePost = async function(postId) {
@@ -58,6 +47,15 @@ const addComment = async function(postId, data) {
     }
 }
 
+//* format les dates
+const dateParser = (num) => {
+    let options = {hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", year: "numeric", month: "short", day: "numeric"}
+    let timestamp = Date.parse(num)
+
+    let date = new Date(timestamp).toLocaleDateString('fr-FR', options)
+
+    return date.toString();
+}
 </script>
 
 <template>
@@ -67,7 +65,9 @@ const addComment = async function(postId, data) {
                 <img :src="post.posterImage" alt="photo de profil">
             </router-link>
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
-            <p class="post-date">{{  post.createdAt.split('T')[0] }} a {{  post.createdAt.split('T')[1].split('.')[0] }}</p>
+            <!-- <p class="post-date">{{  post.createdAt.split('T')[0] }} a {{  post.createdAt.split('T')[1].split('.')[0] }}</p> -->
+            <!-- <p>{{ new Date(post.createdAt).toLocaleDateString('fr-FR') }}</p> -->
+            <p class="post-date">{{ dateParser(post.createdAt) }}</p>
         </div>
 
         <!-- boutton de modification et suppression de post -->
@@ -108,7 +108,7 @@ const addComment = async function(postId, data) {
                     <img :src="comment.commenterImage" alt="photo de profil" class="logo-img">
                     <p>{{ comment.commenterLastName }} {{ comment.commenterFirstName }}</p>
                 </div>
-                <span>{{ Date(comment.timestamp).split('GMT')[0] }}</span>
+                <span>{{ dateParser(new Date(comment.timestamp).toUTCString()) }}</span>
                 <p class="comment">
                     {{ comment.text }}
                 </p>
