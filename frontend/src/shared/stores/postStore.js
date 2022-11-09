@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAllPost, createPost, deletePost, updatePost, likePost } from '../services/post.service';
+import { getAllPost, createPost, deletePost, updatePost, likePost, commentPost } from '../services/post.service';
 
 
 export const usePosts = defineStore('posts', {
@@ -40,6 +40,11 @@ export const usePosts = defineStore('posts', {
         async likePost(postId) {
             const postIndex = this.posts.findIndex(t => t._id === postId)
             const updatedPost = await likePost(postId);
+            this.posts[postIndex] = updatedPost;
+        },
+        async commentPost(postId, data) {
+            const postIndex = this.posts.findIndex(t => t._id === postId)
+            const updatedPost = await commentPost(postId, data);
             this.posts[postIndex] = updatedPost;
         }
     }

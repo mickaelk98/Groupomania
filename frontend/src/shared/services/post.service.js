@@ -106,3 +106,29 @@ export async function likePost(postId) {
         throw e
     }
 }
+
+//* fonction pour commenter un post
+export async function commentPost(postId, data) {
+
+    try {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        const userToken = auth.token;
+
+        const response = await fetch(`${BASE_URL}/comment/${postId}`, {
+            method: 'POST',
+            body: JSON.stringify({ text: data }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+
+        const post = await response.json();
+        if (response.ok) {
+            console.log(post);
+            return post;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}

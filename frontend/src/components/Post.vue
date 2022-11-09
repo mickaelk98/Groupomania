@@ -3,6 +3,7 @@ import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import {  toFormValidator } from '@vee-validate/zod'
 import { usePosts } from '../shared/stores/postStore';
+import { reactive } from 'vue';
 
 
 // recuperation du userId et du token 
@@ -10,6 +11,8 @@ const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userStatus = auth.userStatus;
 const userToken = auth.token;
+
+const text = reactive([])
 
 // recuperation du store
 const postStore = usePosts()
@@ -20,18 +23,9 @@ postStore.getAllPosts()
 const validationSchema = toFormValidator(z.object({
     text: z.optional(
         z.string()
-           .max(200, "votre post doit faire moin de 200 caractere")
+           .max(200, "votre commentaire doit faire moin de 200 caractere")
     )
 }))
-
-// acceder au donnés du formulaire a sa soumission
-const { handleSubmit, setErrors } = useForm({
-   validationSchema
-})
-
-const { value: e , errorMessage: textError } = useField('text');
-
-
 
 // supprime un post
 const deletePost = async function(postId) {
@@ -44,7 +38,7 @@ const deletePost = async function(postId) {
 
 
 // liké un post
-const likePost = async function(postId) {
+const likePost = async function(postId) { 
     try {
         postStore.likePost(postId)
     } catch (e) {
@@ -52,10 +46,22 @@ const likePost = async function(postId) {
     }
 }
 
+// ajouter un commentaire
+const addComment = async function(postId, data) {
+    try {
+        await postStore.commentPost(postId, data)
+        text.length = 0
+        console.log(postId);
+        console.log(data);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 </script>
 
 <template>
-    <div class="post" v-for="post in postStore.ordererPosts" :key="post._id">
+    <div class="post" v-for="(post, index) in postStore.ordererPosts">
         <div class="img-name">
             <router-link :to="`/profil/${post.posterId}`">
                 <img :src="post.posterImage" alt="photo de profil">
@@ -86,14 +92,17 @@ const likePost = async function(postId) {
         </div>
 
         <!-- mettre un commentaire -->
-        <form>
-            <textarea placeholder="Mettre uncommentaire"></textarea>
+        <form @submit.prevent="addComment(post._id, text[index])">
+            <!-- si l'on ajout un commentaire -->
+            <textarea  v-model="text[index]" placeholder="Mettre uncommentaire"></textarea>
+            <!-- sinon -->
+            <!-- <textarea v-else @click="comment" placeholder="Mettre uncommentaire"></textarea> -->
             <button>Envoyer</button>
         </form>
 
         <!-- commentaire du post -->
         <!-- <div class="all-comment" v-for="comment in state.posts.comments"> -->
-        <div class="all-comment" v-for="comment in postStore.$state.posts.comments">
+        <div class="all-comment" v-for="comment in post.comments">
             <div class="comment-block">
                 <div class="commenter-info">
                     <img :src="comment.commenterImage" alt="photo de profil" class="logo-img">

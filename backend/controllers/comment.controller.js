@@ -7,7 +7,8 @@ exports.createComment = (req, res) => {
             if (!post) {
                 return res.status(404).json({ message: "Le post que vous voulez commenter n'a paas été trouvé" })
             }
-            console.log(post);
+            // console.log(post);
+            // console.log(req.body.text);
             Post.updateOne(
                 { _id: req.params.id },
                 {
