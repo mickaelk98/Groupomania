@@ -39,17 +39,7 @@ const addComment = async function(postId, data) {
     try {
         await postStore.commentPost(postId, data)
         text.length = 0
-        console.log(postId);
-        console.log(data);
     } catch(e) {
-        console.log(e);
-    }
-}
-
-const updatedPost = async function(postId) { 
-    try {
-        await postStore.getOnePost(postId)
-    } catch (e) {
         console.log(e);
     }
 }

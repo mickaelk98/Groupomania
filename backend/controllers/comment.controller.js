@@ -8,17 +8,18 @@ exports.createComment = (req, res) => {
                 return res.status(404).json({ message: "Le post que vous voulez commenter n'a paas été trouvé" })
             }
             // console.log(post);
-            // console.log(req.body.text);
+            console.log(req.body);
             Post.updateOne(
                 { _id: req.params.id },
                 {
                     $push: {
                         comments: {
-                            commenterId: req.auth.userId,
-                            commenterFirstName: req.auth.userFirstName,
-                            commenterLastName: req.auth.userLastName,
-                            commenterImage: req.auth.userImage,
-                            text: req.body.text,
+                            // commenterId: req.auth.userId,
+                            // commenterFirstName: req.auth.userFirstName,
+                            // commenterLastName: req.auth.userLastName,
+                            // commenterImage: req.auth.userImage,
+                            // text: req.body.text,
+                            ...req.body,
                             timestamp: new Date().getTime()
                         }
                     }

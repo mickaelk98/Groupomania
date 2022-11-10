@@ -94,6 +94,7 @@ const update = handleSubmit(async (formvalue, { resetForm }) => {
         }
         await postStore.updatePost(postInfo._id, userToken, formvalue)
         resetForm();
+        router.push('/')
     } catch (e) {
         setErrors({
             text: e.error
