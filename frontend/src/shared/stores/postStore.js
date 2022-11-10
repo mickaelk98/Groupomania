@@ -46,6 +46,10 @@ export const usePosts = defineStore('posts', {
             const postIndex = this.posts.findIndex(t => t._id === postId)
             const updatedPost = await commentPost(postId, data);
             this.posts[postIndex] = updatedPost;
+        },
+        getPostInfo(postId) {
+            const postIndex = this.posts.findIndex(t => t._id === postId)
+            return this.posts[postIndex]
         }
     }
 })

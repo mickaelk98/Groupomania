@@ -40,17 +40,62 @@ export async function deletePost(postId) {
 
 //* fonction pour mettre a jour un post
 export async function updatePost(postId, userToken, data) {
-    const response = await fetch(`${BASE_URL}/${postId}`, {
-        method: 'PUT',
-        body: data,
-        headers: {
-            'Authorization': 'Bearer ' + userToken,
-        }
-    });
+    try {
+        const fd = new FormData()
+        fd.append('text', data.text)
+        fd.append('image', data.image)
+        const response = await fetch(`${BASE_URL}/${postId}`, {
+            method: 'PUT',
+            body: fd,
+            headers: {
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
 
-    const posts = await response.json();
-    return posts;
+        const post = await response.json()
+        console.log(post);
+    } catch (e) {
+        throw e
+    }
+
+    // const posts = await response.json();
+    // return posts;
 }
+
+
+// export async function updateUser(userId, userToken, data) {
+//     try {
+
+//         const fd = new FormData()
+
+//         fd.append('firstName', data.firstName)
+//         fd.append('lastName', data.lastName)
+//         fd.append('email', data.email)
+//         fd.append('password', data.password)
+//         fd.append('description', data.description)
+//         fd.append('image', data.image)
+//         const response = await fetch(`${BASE_URL}/${userId}`, {
+//             method: 'PUT',
+//             body: fd,
+//             headers: {
+//                 'Authorization': 'Bearer ' + userToken,
+//             }
+//         });
+//         const user = await response.json()
+//         console.log(user);
+//         if (response.ok) {
+
+//             return user;
+//         }
+//         else {
+//             throw user
+//         }
+//     } catch (e) {
+//         throw e;
+//     }
+// }
+
+
 
 //* fonction pour ajouter un post
 export async function createPost(userToken, data) {

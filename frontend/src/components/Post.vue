@@ -1,6 +1,6 @@
 <script setup>
 import { usePosts } from '../shared/stores/postStore';
-import { reactive } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
@@ -25,7 +25,6 @@ const deletePost = async function(postId) {
     }
 }
 
-
 // liké un post
 const likePost = async function(postId) { 
     try {
@@ -47,6 +46,14 @@ const addComment = async function(postId, data) {
     }
 }
 
+const updatedPost = async function(postId) { 
+    try {
+        await postStore.getOnePost(postId)
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 //* format les dates
 const dateParser = (num) => {
     let options = {hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", year: "numeric", month: "short", day: "numeric"}
@@ -56,6 +63,30 @@ const dateParser = (num) => {
 
     return date.toString();
 }
+
+//* image
+let imageFile = ref('');
+let imageUrl = ref('');
+
+// affiche l'image séléctioné
+const displayImage = (e) => {
+    if (e.target.files.length === 0) {
+        return
+    }
+    imageFile.value = e.target.files[0];
+
+}
+
+// // verifie si l'image a change
+watch(imageFile, (imageFile) => {
+        let fileReader = new FileReader();
+        fileReader.readAsDataURL(imageFile);
+        fileReader.addEventListener("load", () => {
+            imageUrl.value = fileReader.result;
+           
+    })
+})
+
 </script>
 
 <template>
@@ -73,7 +104,7 @@ const dateParser = (num) => {
         <!-- boutton de modification et suppression de post -->
         <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
             <router-link :to="`/home/editPost/${post._id}`" class="btn btn-update">Modifier</router-link>
-            <!-- <button class="btn btn-update">Modifier</button> -->
+            <!-- <button class="btn btn-update" @click="updatedPost(post._id)">Modifier</button> -->
             <button class="btn btn-delete" @click="deletePost(post._id)">Supprimer</button>
         </div>
 
