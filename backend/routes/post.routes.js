@@ -20,6 +20,9 @@ router.put('/:id', auth, multer, postCtrl.updatePost)
 //* route pour supprimer un post
 router.delete('/:id', auth, postCtrl.deletePost)
 
+//* route pour supprimer les post d'un utilisateur
+router.delete('/user/:id', auth, postCtrl.deleteOneUserPost)
+
 //* route pour like et unlike
 router.post('/like/:id', auth, likeCtrl.likePost)
 

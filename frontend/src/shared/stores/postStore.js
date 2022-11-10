@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAllPost, createPost, deletePost, updatePost, likePost, commentPost } from '../services/post.service';
+import { getAllPost, createPost, deletePost, updatePost, likePost, commentPost, deleteOneUserPost } from '../services/post.service';
 
 
 export const usePosts = defineStore('posts', {
@@ -31,6 +31,14 @@ export const usePosts = defineStore('posts', {
             await deletePost(postId);
             const index = this.posts.findIndex(t => t._id === postId);
             this.posts.splice(index, 1);
+        },
+        async deleteOneUserPost(userId) {
+            const posts = await deleteOneUserPost(userId);
+            if (Array.isArray(posts)) {
+                this.posts = posts;
+            } else {
+                this.posts = [posts]
+            }
         },
         async updatePost(postId, userToken, data) {
             const postIndex = this.posts.findIndex(t => t._id === postId)

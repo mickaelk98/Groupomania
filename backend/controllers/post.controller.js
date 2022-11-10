@@ -128,3 +128,43 @@ exports.deletePost = (req, res) => {
         })
         .catch(err => res.status(400).json({ message: "le post n'a pas pu etre supprimé", err }))
 }
+
+exports.deleteOneUserPost = (req, res) => {
+    Post.findOne({ posterId: req.params.id })
+        .then(post => {
+            if (!post) {
+                return res.status(404).json({ message: "Le post n'a pas été trouvé" })
+            }
+            if (post.posterId !== req.auth.userId) {
+                return res.status(404).json({ message: "Le post n'a pas été trouvé" })
+            } else {
+                if (req.file) {
+
+                    //* recupere l'image du post
+                    const filename = post.image.split('/images/')[1]
+
+                    //* supprime l'image et le post
+                    fs.unlink(`images/${filename}`, () => {
+                        Post.deleteMany({ posterId: req.params.id })
+                            .then(() => {
+                                return Post.find()
+                                    .then(posts => res.status(200).json(posts))
+                                    .catch(err => res.status(400).json({ err }))
+                            })
+                            .catch(err => res.status(400).json({ err }))
+                    })
+                }
+                //* sinon suprime juste le post 
+                else {
+                    Post.deleteMany({ posterId: req.params.id })
+                        .then(() => {
+                            return Post.find()
+                                .then(posts => res.status(200).json(posts))
+                                .catch(err => res.status(400).json({ err }))
+                        })
+                        .catch(err => res.status(400).json({ err }))
+                }
+            }
+        })
+        .catch()
+}

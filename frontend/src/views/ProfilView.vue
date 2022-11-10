@@ -1,8 +1,7 @@
 <script setup>
 import TheHeader from '../components/TheHeader.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useUser } from '../shared/stores/userStore';
-import { onBeforeMount } from 'vue';
+import { useUser, usePosts } from '../shared/stores';
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
@@ -15,16 +14,20 @@ const router = useRouter()
 
 // recupere l'id dans l'url
 const userUrlId = route.params.userId;
+console.log(userUrlId);
 
 // recupere le store user
 const userStore = useUser();
-// recupere les information d'un utilisateur
+const postStore = usePosts();
 
+// recupere les information d'un utilisateur
 userStore.getOtherUserInfo(userUrlId) 
+// const user = userStore.getUserProfil(userUrlId)
 
 
 // fonction de suppression d'un profil
 const deleteProfil = async function() {
+    await postStore.deleteOneUserPost(userUrlId)
     await userStore.deleteUser(userUrlId, userToken)
     router.push('/')
 }

@@ -39,6 +39,32 @@ export async function deletePost(postId) {
     }
 }
 
+
+//* fonction pour supprimer tout les post d'un utilisateur
+export async function deleteOneUserPost(userId) {
+    try {
+        // recuperation du userId et du token 
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        const userToken = auth.token;
+        console.log(userToken);
+
+        const response = await fetch(`${BASE_URL}/user/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userToken,
+            }
+        });
+
+        const post = await response.json();
+        console.log(post);
+
+        return post;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 //* fonction pour mettre a jour un post
 export async function updatePost(postId, userToken, data) {
     try {
