@@ -54,6 +54,7 @@ export async function updatePost(postId, userToken, data) {
 
         const post = await response.json()
         console.log(post);
+        return post
     } catch (e) {
         throw e
     }
@@ -62,38 +63,6 @@ export async function updatePost(postId, userToken, data) {
     // return posts;
 }
 
-
-// export async function updateUser(userId, userToken, data) {
-//     try {
-
-//         const fd = new FormData()
-
-//         fd.append('firstName', data.firstName)
-//         fd.append('lastName', data.lastName)
-//         fd.append('email', data.email)
-//         fd.append('password', data.password)
-//         fd.append('description', data.description)
-//         fd.append('image', data.image)
-//         const response = await fetch(`${BASE_URL}/${userId}`, {
-//             method: 'PUT',
-//             body: fd,
-//             headers: {
-//                 'Authorization': 'Bearer ' + userToken,
-//             }
-//         });
-//         const user = await response.json()
-//         console.log(user);
-//         if (response.ok) {
-
-//             return user;
-//         }
-//         else {
-//             throw user
-//         }
-//     } catch (e) {
-//         throw e;
-//     }
-// }
 
 
 

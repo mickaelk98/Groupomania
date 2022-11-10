@@ -93,7 +93,10 @@ exports.updatePost = (req, res) => {
                             posterImage: req.auth.userImage,
                         }
                     Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
-                        .then(() => res.status(200).json({ message: 'Le post a été modifié' }))
+                        .then(() => {
+                            return Post.findOne({ _id: req.params.id })
+                                .then(post => res.status(201).json(post))
+                        })
                         .catch(err => res.status(400).json({ err }))
                 }
             })

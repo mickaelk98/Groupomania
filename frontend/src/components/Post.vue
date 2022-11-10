@@ -63,30 +63,6 @@ const dateParser = (num) => {
 
     return date.toString();
 }
-
-//* image
-let imageFile = ref('');
-let imageUrl = ref('');
-
-// affiche l'image séléctioné
-const displayImage = (e) => {
-    if (e.target.files.length === 0) {
-        return
-    }
-    imageFile.value = e.target.files[0];
-
-}
-
-// // verifie si l'image a change
-watch(imageFile, (imageFile) => {
-        let fileReader = new FileReader();
-        fileReader.readAsDataURL(imageFile);
-        fileReader.addEventListener("load", () => {
-            imageUrl.value = fileReader.result;
-           
-    })
-})
-
 </script>
 
 <template>
