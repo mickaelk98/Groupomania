@@ -3,13 +3,13 @@ const fs = require('fs')
 
 
 //* verifie si l'utilisateur est administrateur
-const isAdmin = (email, status) => {
-    if (email === process.env.ADMIN_USERNAME || status) {
-        return true
-    } else {
-        return false
-    }
-}
+// const isAdmin = (email, status) => {
+//     if (email === process.env.ADMIN_USERNAME || status) {
+//         return true
+//     } else {
+//         return false
+//     }
+// }
 
 //* controller pour créer un post
 exports.createPost = (req, res) => {
@@ -62,8 +62,7 @@ exports.updatePost = (req, res) => {
                     return res.status(404).json({ message: "Le post n'a pas été trouvé" })
                 }
                 //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-                const admin = isAdmin(req.auth.userEmail, req.auth.userStatus);
-                if (post.posterId !== req.auth.userId && admin === false) {
+                if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
                     return res.status(401).json({ message: 'Requete non autorisé' })
                 } else {
 
@@ -100,8 +99,7 @@ exports.deletePost = (req, res) => {
                 return res.status(404).json({ message: "Le post n'a pas été trouvé" })
             }
             //* si celui qui fait la requete n'est pas celui qui la crée ou admin
-            const admin = isAdmin(req.auth.userEmail, req.auth.userStatus);
-            if (post.posterId !== req.auth.userId && admin === false) {
+            if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
                 return res.status(401).json({ message: 'Requete non autorisé' })
             } else {
 
@@ -135,8 +133,9 @@ exports.deleteOneUserPost = (req, res) => {
             if (!post) {
                 return res.status(404).json({ message: "Le post n'a pas été trouvé" })
             }
-            if (post.posterId !== req.auth.userId) {
-                return res.status(404).json({ message: "Le post n'a pas été trouvé" })
+            //* si celui qui fait la requete n'est pas celui qui la crée ou admin
+            if (post.posterId !== req.auth.userId && req.auth.userStatus === false) {
+                return res.status(401).json({ message: 'Requete non autorisé' })
             } else {
                 if (req.file) {
 

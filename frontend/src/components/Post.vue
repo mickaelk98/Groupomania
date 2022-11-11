@@ -6,6 +6,7 @@ import { reactive, ref, watch } from 'vue';
 const auth = JSON.parse(localStorage.getItem('auth'));
 const localUserId = auth.userId;
 const userStatus = auth.userStatus;
+
 const userToken = auth.token;
 
 const text = reactive([])
@@ -62,15 +63,12 @@ const dateParser = (num) => {
                 <img :src="post.posterImage" alt="photo de profil">
             </router-link>
             <p>{{ post.posterLastname }} {{ post.posterFirstname }}</p>
-            <!-- <p class="post-date">{{  post.createdAt.split('T')[0] }} a {{  post.createdAt.split('T')[1].split('.')[0] }}</p> -->
-            <!-- <p>{{ new Date(post.createdAt).toLocaleDateString('fr-FR') }}</p> -->
             <p class="post-date">{{ dateParser(post.createdAt) }}</p>
         </div>
 
         <!-- boutton de modification et suppression de post -->
         <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
             <router-link :to="`/home/editPost/${post._id}`" class="btn btn-update">Modifier</router-link>
-            <!-- <button class="btn btn-update" @click="updatedPost(post._id)">Modifier</button> -->
             <button class="btn btn-delete" @click="deletePost(post._id)">Supprimer</button>
         </div>
 
