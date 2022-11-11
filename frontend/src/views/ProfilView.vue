@@ -14,7 +14,6 @@ const router = useRouter()
 
 // recupere l'id dans l'url
 const userUrlId = route.params.userId;
-console.log(userUrlId);
 
 // recupere le store user
 const userStore = useUser();
@@ -22,7 +21,6 @@ const postStore = usePosts();
 
 // recupere les information d'un utilisateur
 userStore.getOtherUserInfo(userUrlId) 
-// const user = userStore.getUserProfil(userUrlId)
 
 
 // fonction de suppression d'un profil
@@ -38,12 +36,11 @@ const deleteProfil = async function() {
 <template>
     <TheHeader />
     <div class="profil-page">
-        <!-- formulaire de modification -->
         <main class="profil">
             <div class="container">
                 <h1 class="title">Profil</h1>
                 <div class="left">
-                    <h2 class="name">{{ userStore.otherUser.firstName }} {{ userStore.otherUser.lastName }} </h2>
+                    <h2 class="name">{{ userStore.otherUser.lastName }} {{ userStore.otherUser.firstName }}</h2>
                     <img :src="userStore.otherUser.image" alt="photo de profil" class="img-profil">
                 </div>
                 <div class="right">

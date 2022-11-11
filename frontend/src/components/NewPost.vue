@@ -7,14 +7,13 @@ import { usePosts, useUser } from '../shared/stores';
 
 // recuperation du userId et du token 
 const auth = JSON.parse(localStorage.getItem('auth'));
-const localUserId = auth.userId;
 const userToken = auth.token;
 
 // gere l'éta des donnée
 const userStore = useUser();
 const postStore = usePosts();
 
-const user =  userStore.getUserProfil(localUserId)
+
 
 let imageFile = ref('');
 let imageUrl = ref('');
@@ -79,7 +78,7 @@ const createPost = handleSubmit(async (formvalue, { resetForm }) => {
                 <router-link :to="`/profil/${userStore.$state.user._id}`">
                     <img :src="userStore.$state.user.image" alt="photo de profil">
                 </router-link>
-                    <p>{{ userStore.$state.user.firstName }} {{ userStore.$state.user.lastName }}</p>
+                    <p>{{ userStore.$state.user.lastName }} {{ userStore.$state.user.firstName }}</p>
                 </div>
                 <textarea v-model="textValue" placeholder="Faite un nouveaux post"></textarea>
                 <small class="errors" v-if="textError" >{{ textError }}</small>
