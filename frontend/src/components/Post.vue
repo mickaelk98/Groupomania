@@ -1,5 +1,5 @@
 <script setup>
-import { usePosts } from '../shared/stores/postStore';
+import { usePosts, useUser } from '../shared/stores';
 import { reactive, ref, watch } from 'vue';
 
 // recuperation du userId et du token 
@@ -11,8 +11,13 @@ const userToken = auth.token;
 
 const text = reactive([])
 
+
 // recuperation du store
 const postStore = usePosts()
+const userStore = useUser()
+
+// const user = userStore.get
+console.log(userStore.user.isAdmin);
 
 // recupere tout les post
 postStore.getAllPosts()
@@ -67,7 +72,7 @@ const dateParser = (num) => {
         </div>
 
         <!-- boutton de modification et suppression de post -->
-        <div class="update-delete-btn" v-if="post.posterId === localUserId || userStatus">
+        <div class="update-delete-btn" v-if="post.posterId === localUserId || userStore.user.isAdmin === true">
             <router-link :to="`/home/editPost/${post._id}`" class="btn btn-update">Modifier</router-link>
             <button class="btn btn-delete" @click="deletePost(post._id)">Supprimer</button>
         </div>

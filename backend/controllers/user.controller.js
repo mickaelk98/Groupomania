@@ -19,6 +19,15 @@ const handleErrors = (err) => {
 
 //* controller d'incription
 exports.signup = (req, res) => {
+
+    //* verifie si l'identifiant et le mot de passe sont ceux de l'administrateur
+    let userStatus = "";
+    if (req.body.email === process.env.ADMIN_USERNAME && req.body.password === process.env.ADMIN_PASSWORD) {
+        userStatus = true
+    } else {
+        userStatus = false
+    }
+
     //* cryptage du mot de passe
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -28,7 +37,7 @@ exports.signup = (req, res) => {
                 password: hash,
                 //* ajout d'une image et d'un status par default
                 image: `${req.protocol}://${req.get('host')}/images/default.jpg`,
-                isAdmin: false
+                isAdmin: userStatus
             });
             //* enregistrement du nouveau utilisateur dans la base de donnée
             user.save()
