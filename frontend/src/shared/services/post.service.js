@@ -1,5 +1,5 @@
 const BASE_URL = 'http://localhost:5000/api/post/';
-import { useUser } from '../stores';
+import { useUser, usePosts } from '../stores';
 
 
 //* fonction pour recuperer tout les posts
@@ -68,14 +68,10 @@ export async function deleteOneUserPost(userId) {
 //* fonction pour mettre a jour un post
 export async function updatePost(postId, userToken, data) {
     try {
-        const userStore = useUser();
         const fd = new FormData()
+
         fd.append('text', data.text)
         fd.append('image', data.image)
-        fd.append('posterId', userStore.user._id)
-        fd.append('posterFirstname', userStore.user.firstName)
-        fd.append('posterLastname', userStore.user.lastName)
-        fd.append('posterImage', userStore.user.image)
         const response = await fetch(`${BASE_URL}/${postId}`, {
             method: 'PUT',
             body: fd,
