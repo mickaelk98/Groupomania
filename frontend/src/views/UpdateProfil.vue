@@ -144,6 +144,7 @@ const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
     <form enctype="multipart/form-data" @submit="updateProfil">
 
         <!-- image -->
+        <label for="image">Choisissez votre photo de profil</label>
         <input type="file" id="image" name="image" accept="image/*" @change="displayImage" >
         <div class="img-preview" v-if="imageUrl">
             <img :src="imageUrl" alt="image du profil">

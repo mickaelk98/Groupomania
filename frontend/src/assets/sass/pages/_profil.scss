@@ -54,7 +54,8 @@
     .img-profil {
         margin: 10px auto;
         width: 80%;
-        height: 200px;
+        height: auto;
+        max-height: 350px;
     }
 
     .buttons {

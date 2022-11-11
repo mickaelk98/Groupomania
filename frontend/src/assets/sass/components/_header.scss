@@ -8,7 +8,6 @@ header {
     color: white;
     font-size: 20px;
     height: 80px;
-
     .redirect{
         color: white;
     }
@@ -18,12 +17,9 @@ header {
     display: none;
 }
 
-// .logo-site {
-//     width: 40%;
-//     height: 80px;
-//     background: url('./images/icon-left-font-monochrome-white.svg') center/cover no-repeat;
-//     background-size: 100%;
-// }
+.logo-site {
+    margin-left: 10px;
+}
 
 .account {
     width: 20%;
@@ -32,7 +28,7 @@ header {
     cursor: pointer;
     overflow: hidden;
     font-size: 16px;
-
+    margin-right: 10px;
     ul {
         display: flex;
         justify-content: space-between;
@@ -44,38 +40,41 @@ header {
 }
 
 @media screen and (min-width: 768px) {
-    .account {
-        width: 30%;
-        header {
-            height: 80px;
-        }
-    
+    header {
         .logo-site {
-            width: 40%;
-            height: 80px;
+            width: 30%;
+            height: 60px;
         }
+        .account {
+            width: 20%;
+        }
+        
     }
-    
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
-    .account {
-        width: 30%;
-        font-size: 20px;
+    header {
+        
         .logo-site {
-            width: 30%;
-            height: 80px;
+            width: 20%;
+            height: 60px;
         }
+        .account {
+            width: 30%;
+            font-size: 20px;
+        }
+    
     }
-
 }
 
 @media screen and (min-width: 1441px) {
-    .logo-site {
-        width: 20%;
-        height: 80px;
-    }
-    .account {
-        width: 10%;
+    header {
+        .logo-site {
+            width: 20%;
+            height: 80px;
+        }
+        .account {
+            width: 10%;
+        }
     }
 }

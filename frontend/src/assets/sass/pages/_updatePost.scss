@@ -33,6 +33,15 @@
                 display: inline;
             }
         }
+        .img-preview {
+            padding: 5px;
+            margin: auto;
+            img {
+                height: auto;
+                max-width: 100%;
+                max-height: 300px;
+            }
+        }
         textarea {
             resize: none;
             height: 180px;
@@ -47,5 +56,25 @@
                 background: $success-2;
             }
         }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .container {
+        width: 50%;
+        max-width: 700px;
+    }
+}
+
+@media screen and (min-width: 1441px) {
+    .container {
+        width: 50%;
+        max-width: 800px;
     }
 }
