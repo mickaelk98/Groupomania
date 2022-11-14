@@ -95,10 +95,11 @@ watch(imageFile, (imageFile) => {
 // fonction de modification d'un profil
 const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
     try {
+        console.log(formvalue);
         const useStore = useUser();
        const user = await useStore.getUserProfil(route.params.userId);
-       console.log(user.image);
-       console.log(imageFile.value);
+       console.log(user);
+    //    console.log(imageFile.value);
     
         if (formvalue.firstName === undefined) {
             console.log(user.firstName);
@@ -116,16 +117,18 @@ const updateProfil = handleSubmit(async (formvalue, { resetForm }) => {
             console.log(user.password);
             delete formvalue.password
         }
-        if (formvalue.description === undefined) {
+        if (formvalue.description === undefined || formvalue.description === "") {
             console.log(user.description);
+            console.log(formvalue.description);
             formvalue.description = user.description
         }
         if(imageFile.value === "") {
-            console.log(imageFile.value, user.image);
+            // console.log(imageFile.value, user.image);
             formvalue.image = user.image;
         } else {
             formvalue.image = imageFile.value;
         }
+        console.log(formvalue);
       
         await useStore.updateUser(localUserId, userToken, formvalue);
         router.push(`/profil/${route.params.userId}`)

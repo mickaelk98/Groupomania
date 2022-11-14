@@ -54,15 +54,27 @@ export async function getUserProfil(userId) {
 //* fonction pour mettre a jour un utilisateur
 export async function updateUser(userId, userToken, data) {
     try {
+        console.log("ok");
+        console.log(data.password);
 
         const fd = new FormData()
 
-        fd.append('firstName', data.firstName)
-        fd.append('lastName', data.lastName)
-        fd.append('email', data.email)
-        fd.append('password', data.password)
-        fd.append('description', data.description)
-        fd.append('image', data.image)
+        if (data.password === undefined) {
+            fd.append('firstName', data.firstName)
+            fd.append('lastName', data.lastName)
+            fd.append('email', data.email)
+            fd.append('description', data.description)
+            fd.append('image', data.image)
+        }
+        else {
+
+            fd.append('firstName', data.firstName)
+            fd.append('lastName', data.lastName)
+            fd.append('email', data.email)
+            fd.append('password', data.password)
+            fd.append('description', data.description)
+            fd.append('image', data.image)
+        }
         const response = await fetch(`${BASE_URL}/${userId}`, {
             method: 'PUT',
             body: fd,

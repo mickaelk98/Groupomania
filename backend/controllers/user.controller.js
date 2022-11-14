@@ -37,7 +37,8 @@ exports.signup = (req, res) => {
                 password: hash,
                 //* ajout d'une image et d'un status par default
                 image: `${req.protocol}://${req.get('host')}/images/default.jpg`,
-                isAdmin: userStatus
+                isAdmin: userStatus,
+                description: ""
             });
             //* enregistrement du nouveau utilisateur dans la base de donnée
             user.save()
@@ -78,6 +79,7 @@ exports.login = (req, res) => {
                                     lastName: user.lastName,
                                     email: user.email,
                                     image: user.image,
+                                    description: user.description,
                                     isAdmin: user.isAdmin,
                                     createdAt: user.createdAt
                                 }
@@ -183,24 +185,34 @@ exports.updateProfil = (req, res) => {
                 if (req.file) {
                     userObject.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
-                //* si il y a un mot de passe
-                if (req.body.password !== 'undefined') {
-                    bcrypt.hash(req.body.password, 10)
-                        .then(hash => {
-                            userObject.password = hash
-                        })
-                        .catch(err => res.status(400).json({ message: "echec lors du cryptage du mot de passe", err }))
-                }
                 //* si il y a une email
                 if (req.body.email !== user.email) {
                     userObject.email = req.body.email
                 }
-                User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
-                    .then(() => {
-                        return User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt')
-                            .then(user => res.status(201).json(user))
-                    })
-                    .catch(err => res.status(400).json({ err }))
+                //* si la modification comporte un mot de passe
+                if (req.body.password) {
+
+                    bcrypt.hash(req.body.password, 10)
+                        .then(hash => {
+                            userObject.password = hash
+                            User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+                                .then(() => {
+                                    return User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt')
+                                        .then(user => res.status(201).json(user))
+                                })
+                                .catch(err => res.status(400).json({ err }))
+                        })
+                        .catch(err => res.status(400).json({ message: "echec lors du cryptage du mot de passe", err }))
+                }
+                //* si la modification ne comporte pas de mot de passe 
+                else {
+                    User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+                        .then(() => {
+                            return User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt')
+                                .then(user => res.status(201).json(user))
+                        })
+                        .catch(err => res.status(400).json({ err }))
+                }
             }
         })
         .catch(err => res.status(400).json({ err }))
