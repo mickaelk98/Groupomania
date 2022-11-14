@@ -69,8 +69,19 @@ exports.login = (req, res) => {
                         }
                         //* sinon
                         else {
+                            console.log(user._id);
                             res.status(200).json({
-                                user,
+
+                                user: {
+                                    _id: user._id,
+                                    firstName: user.firstName,
+                                    lastName: user.lastName,
+                                    email: user.email,
+                                    image: user.image,
+                                    isAdmin: user.isAdmin,
+                                    createdAt: user.createdAt
+                                }
+                                ,
                                 token: jwt.sign(
                                     {
                                         userId: user._id,
@@ -157,7 +168,7 @@ exports.updateProfil = (req, res) => {
     } else {
         console.log("pas de mail");
     }
-    User.findOne({ _id: req.params.id })
+    User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt')
         .then(user => {
             if (!user) {
                 return res.status(404).json({ error: "l'utilisateur demandé n'a pas été trouvé" })
@@ -186,7 +197,7 @@ exports.updateProfil = (req, res) => {
                 }
                 User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
                     .then(() => {
-                        return User.findOne({ _id: req.params.id })
+                        return User.findOne({ _id: req.params.id }, 'firstName lastName email description image isAdmin createdAt')
                             .then(user => res.status(201).json(user))
                     })
                     .catch(err => res.status(400).json({ err }))
