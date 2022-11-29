@@ -29,8 +29,18 @@ app.use(express.json());
 //* permet de servir des images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+//* renvoie le build du froontend
+app.use(express.static('../frontend-build'));
+
 //* traite les requetes envoyer au serveur
 app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
+
+
+//* renvoie le fichier index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend-build/index.html'))
+})
+
 
 module.exports = app;
