@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('./app');
 
-const port = 80;
+const port = 5000;
 
 //* Ecoute du serveur express
 app.set('port', process.env.PORT || port)
