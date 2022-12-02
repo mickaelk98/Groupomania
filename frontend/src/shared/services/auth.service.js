@@ -1,9 +1,5 @@
 const BASE_URL = 'http://localhost:5000/api/auth/';
 
-// recuperation du userId et du token 
-// const auth = JSON.parse(localStorage.getItem('auth'));
-// const localUserId = auth.userId;
-// const userToken = auth.token;
 
 //* fonction pour authentifier un utilisateur
 export async function login(data) {

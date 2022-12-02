@@ -16,3 +16,9 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - 80:80
+      - 443:443
+    #pour acceder aux certificat ssl sur la machine hote
+    volumes:
+      - type: bind
+        source: /etc/letsencrypt
+        target: /etc/letsencrypt
