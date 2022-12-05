@@ -45,7 +45,7 @@ function goHome() {
 .logo-site {
     width: 40%;
     height: 80px;
-    background: url('../images/icon-left-font-monochrome-white.png') center/cover no-repeat;
+    background: url('../static-images/icon-left-font-monochrome-white.png') center/cover no-repeat;
     background-size: 100%;
     cursor: pointer;
 }

@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000/api/auth/';
+const BASE_URL = '/api/auth';
 
 
 //* fonction pour authentifier un utilisateur

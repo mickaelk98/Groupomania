@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000/api/post/';
+const BASE_URL = '/api/post';
 import { useUser, usePosts } from '../stores';
 
 
@@ -106,7 +106,7 @@ export async function createPost(userToken, data) {
         fd.append('posterLastname', userStore.user.lastName)
         fd.append('posterImage', userStore.user.image)
 
-        const response = await fetch('http://localhost:5000/api/post/',
+        const response = await fetch(`${BASE_URL}`,
             {
                 method: 'POST',
                 body: fd,

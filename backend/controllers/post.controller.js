@@ -2,14 +2,6 @@ const Post = require('../models/post');
 const fs = require('fs')
 
 
-//* verifie si l'utilisateur est administrateur
-// const isAdmin = (email, status) => {
-//     if (email === process.env.ADMIN_USERNAME || status) {
-//         return true
-//     } else {
-//         return false
-//     }
-// }
 
 //* controller pour créer un post
 exports.createPost = (req, res) => {
