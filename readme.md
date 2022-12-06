@@ -5,7 +5,7 @@ mais aussi liké et commenter tous les posts, un utilisateur administrateur aura
 
 # Prérequis
 
-Pour faire fonctionner ce projet, vous aurez besoin de **node.js** et un lien pour se connecter a une **base de données mongoDB**, pour la base de données vous pouvez en creer une
+Pour faire fonctionner ce projet, vous aurez besoin de **Docker** et un lien pour se connecter a une **base de données mongoDB**, pour la base de données vous pouvez en creer une
 sur **mongoDB atlas** ou en local avec **mongoDB compas**.
 
 # Installation du projet
@@ -20,12 +20,6 @@ sur **mongoDB atlas** ou en local avec **mongoDB compas**.
 - ADMIN_USERNAME = L'identifiant de l'administrateur
 - ADMIN_PASSWORD = Le mot de passe de l'administrateur
 
-4. Installer les dépendances du projet
-   `npm install`
-5. lancer le serveur backend
-   `nodemon server.js`
-6. Aller dans le dossier frontend
-7. Installer les dépendances du projet
-   `npm install`
-8. Lancer le serveur
-   `npm run dev`
+4. Revenir à la racine du projet et lancez la commande suivante
+   `docker compose -f docker-compose.dev.yml up`
+5. Une fois le projet lancé, rendez-vous sur **localhost** via un navigateur
